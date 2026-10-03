@@ -1,0 +1,16 @@
+# Entorno virtual de Python (cada uno crea el suyo)
+venv/
+__pycache__/
+*.pyc
+
+# Archivos que deja Windows al copiar
+*Zone.Identifier
+
+# Configuración real con las PSK: NO se sube (se sube config.example.py)
+config.py
+
+# Archivos personales de Claude Code (memoria, ajustes, instrucciones)
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+.mcp.json
