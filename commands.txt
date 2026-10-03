@@ -1,8 +1,0 @@
-execute:
-mpremote connect COM5 run prueba.py
-
-copi into:
-mpremote connect COM5 fs cp mi_modulo.py :mi_modulo.py
-
-
-console: mpremote connect COM5 repl

@@ -9,7 +9,7 @@ __pycache__/
 # Configuración real con las PSK: NO se sube (se sube config.example.py)
 config.py
 
-# Archivos personales de Claude Code (memoria, ajustes, instrucciones)
+# Archivos personales (no son parte del proyecto)
 .claude/
 CLAUDE.md
 CLAUDE.local.md
