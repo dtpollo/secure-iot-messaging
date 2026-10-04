@@ -14,7 +14,7 @@
 #   [x] Si llega protocol.Rejected, imprimir el motivo
 #   [x] --id: usar otro ID para probar un dispositivo no autorizado
 #   [x] --bench: medir tamano del mensaje y del paquete, tiempo de cifrado,
-#       tiempo de descifrado + verificacion y latencia
+#       tiempo de descifrado + verificacion y latencia RTT
 
 import os
 import sys
@@ -25,6 +25,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 
 import config      # noqa: E402
 import protocol    # noqa: E402
+
+PING = b"\x00BENCH_PING"
+PONG = b"\x00BENCH_PONG"
 
 def crear_socket():
     # Socket UDP del PC
@@ -100,11 +103,43 @@ def recibir_mensaje(sock, session, bench):
         print("Rechazado:", e)
         return
     fin = time.perf_counter()
-    print("Mensaje recibido:", mensaje.decode())
+    if mensaje == PING:
+        # Responder solo despues de verificar el paquete
+        sock.sendto(session.seal(PONG), addr)
+        print("Prueba de latencia respondida")
+    elif mensaje == PONG:
+        print("Respuesta de latencia recibida")
+    else:
+        print("Mensaje recibido:", mensaje.decode("utf-8", "replace"))
     if bench:
         print("Tamano paquete:", len(paquete), "bytes")
         print("Tamano mensaje:", len(mensaje), "bytes")
         print("Tiempo open:", round((fin - inicio) * 1000, 3), "ms")
+    return mensaje
+
+
+def medir_latencia(sock, session, peer_addr):
+    # El otro nodo debe estar en Recibir mensaje
+    timeout_anterior = sock.gettimeout()
+    try:
+        sock.settimeout(5)
+        inicio = time.perf_counter()
+        sock.sendto(session.seal(PING), peer_addr)
+        paquete, addr = sock.recvfrom(4096)
+        mensaje = session.open(paquete)
+        fin = time.perf_counter()
+        if mensaje == PONG:
+            rtt = (fin - inicio) * 1000
+            print("Latencia RTT:", round(rtt, 3), "ms")
+            print("Latencia estimada:", round(rtt / 2, 3), "ms")
+        else:
+            print("La respuesta no es PONG")
+    except protocol.Rejected as e:
+        print("Rechazado:", e)
+    except socket.timeout:
+        print("Sin respuesta de latencia en 5 s")
+    finally:
+        sock.settimeout(timeout_anterior)
 
 def chat(sock, session, peer_addr, bench):
     # Menu simple para enviar o recibir
@@ -113,6 +148,8 @@ def chat(sock, session, peer_addr, bench):
         print("1. Enviar mensaje")
         print("2. Recibir mensaje")
         print("3. Salir")
+        if bench:
+            print("4. Medir latencia RTT (el peer debe estar recibiendo)")
         opcion = input("> ")
         if opcion == "1":
             texto = input("Mensaje: ")
@@ -121,6 +158,8 @@ def chat(sock, session, peer_addr, bench):
             recibir_mensaje(sock, session, bench)
         elif opcion == "3":
             break
+        elif opcion == "4" and bench:
+            medir_latencia(sock, session, peer_addr)
         else:
             print("Opcion invalida")
 
