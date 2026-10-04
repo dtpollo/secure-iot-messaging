@@ -2,7 +2,7 @@
 # Cifrar:     C_i = AES_K(P_i xor C_{i-1}),       con C_0 = IV
 # Descifrar:  P_i = AES^-1_K(C_i) xor C_{i-1}
 # Entra el mensaje YA con padding (multiplo de 16). Sale C del mismo tamano.
-# OJO: descifrar NO detecta si C fue modificado. Eso lo hace el TAG.
+# descifrar NO detecta si C fue modificado. Eso lo hace el TAG. !
 
 import sys
 
@@ -39,7 +39,6 @@ def aes_cbc_encrypt(key, iv, data):
 def aes_cbc_decrypt(key, iv, cipher_data):
     _check(key, iv, cipher_data)
     if MICROPYTHON:
-        # en cryptolib un objeto sirve para cifrar O para descifrar: se crea uno nuevo
         return cryptolib.aes(key, MODE_CBC, iv).decrypt(cipher_data)
     dec = Cipher(algorithms.AES(key), modes.CBC(iv)).decryptor()
     return dec.update(cipher_data) + dec.finalize()
