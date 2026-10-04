@@ -6,11 +6,12 @@
 #   [ ] Copiar el primo p de ffdhe2048 (RFC 7919, Apendice A.1)
 #   [ ] Implementar cada funcion sin cambiarle el nombre
 
-try:
-    import cryptolib            # ESP32 (MicroPython)
-    MICROPYTHON = True
-except ImportError:
-    MICROPYTHON = False         # PC
+import sys
+
+MICROPYTHON = sys.implementation.name == "micropython"
+
+if MICROPYTHON:
+    import cryptolib            # ESP32
 
 DH_P = None                     # TODO: primo de 2048 bits del RFC 7919
 DH_G = 2
