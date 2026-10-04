@@ -19,7 +19,7 @@ Cada uno trabaja su parte con su propia ESP32 y su PC. Al final nos juntamos par
 | | Integrante A: ________ | Integrante B: ________ |
 |---|---|---|
 | Parte | Criptografía y protocolo | Red, ESP32 y ataques |
-| Archivos | `common/crypto.py`, `common/protocol.py` | `esp32/main.py`, `esp32/led.py`, `pc/node.py`, `pc/attacker.py` |
+| Archivos | `common/padding.py`, `aes_cbc.py`, `tag.py`, `hkdf.py`, `dh.py`, `protocol.py` | `esp32/main.py`, `esp32/led.py`, `pc/node.py`, `pc/attacker.py` |
 
 Cada archivo tiene arriba su lista **"Por hacer"**.
 
@@ -43,8 +43,7 @@ paquete = session.seal(b"Hola")
 mensaje = session.open(paquete)     # si falla lanza protocol.Rejected("motivo")
 ```
 
-`protocol.py` ya funciona en **versión de prueba** (sin cifrado), así B puede empezar ya.
-A la cambia por la versión real sin cambiar estos nombres.
+`protocol.py` ya es la **versión real** (DH + PSK, AES-CBC, HMAC). Los nombres no cambiaron.
 
 ## 4. Cronograma
 
@@ -58,8 +57,8 @@ A la cambia por la versión real sin cambiar estos nombres.
 ### Mañana en la mañana: cada uno su parte
 
 **A**
-- [ ] Implementar `crypto.py`
-- [ ] Cambiar `protocol.py` a la versión real (DH + PSK, AES-CBC, HMAC)
+- [x] Implementar los módulos cripto (`padding`, `aes_cbc`, `tag`, `hkdf`, `dh`)
+- [x] Cambiar `protocol.py` a la versión real (DH + PSK, AES-CBC, HMAC)
 - [ ] Probar el handshake ESP32 ↔ PC con su placa
 
 **B**

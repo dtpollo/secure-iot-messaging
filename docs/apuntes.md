@@ -225,7 +225,7 @@ $$
 **Por qué se borra $a$:** si $a$ quedara guardado en memoria y alguien robara la placa después, podría recalcular $Z$. Borrarlo es lo que hace a DH **efímero** ("DHE").
 
 **Requisito del profe:** "establish a session key using Diffie–Hellman" (15 %). Es la **primera opción** que propone el PDF.
-**En el código:** `common/crypto.py` → `dh_keygen()`.
+**En el código:** `common/dh.py` → `dh_keygen()`.
 
 ---
 
@@ -244,7 +244,7 @@ $$
 **Si no estuviera:** con $Y_B = 1$ el secreto es $Z = 1^{a} = 1$, y con $Y_B = p - 1$ es $Z = (-1)^{a}$, que vale $1$ o $p-1$. Cualquiera conocería $Z$ (§5.3).
 En nuestro diseño, un atacante **externo** no puede colar $Y_B = 1$, porque $Y_B$ va dentro del HMAC con la $\mathit{PSK}$ (§3.7). La validación nos protege de un dispositivo autorizado con un error o comprometido. Es **defensa en profundidad** y **RFC 7919 la exige**.
 
-**En el código:** `common/crypto.py` → dentro de `dh_shared()`.
+**En el código:** `common/dh.py` → dentro de `dh_shared()`.
 
 ---
 
@@ -256,7 +256,7 @@ En nuestro diseño, un atacante **externo** no puede colar $Y_B = 1$, porque $Y_
 
 **Clave:** $Z$ **nunca** se envía. Cada lado lo calcula por su cuenta.
 **Si no estuviera:** no hay forward secrecy (ver §3.4).
-**En el código:** `common/crypto.py` → `dh_shared()`.
+**En el código:** `common/dh.py` → `dh_shared()`.
 
 ---
 
@@ -317,7 +317,7 @@ $$
 **Si no estuviera:** se usaría la misma clave para AES y HMAC, o una clave con sesgo. Ninguna de las dos cosas es aceptable en un diseño estándar.
 
 **Requisito del profe:** "appropriate management of cryptographic material" (15 %).
-**En el código:** `common/crypto.py` → `hkdf()`.
+**En el código:** `common/hkdf.py` → `derive_keys()`.
 
 ---
 
@@ -387,7 +387,7 @@ es decir, **cambia en $P_2$ exactamente los bits que el atacante eligió** (§5.
 **¿Por qué CBC y no AES-GCM (lo que recomienda el profe)?** `cryptolib` de MicroPython solo trae ECB, CBC y CTR. Programar GCM a mano sería criptografía propia, que está prohibida. El PDF permite cifrado y autenticación separados **si se justifica**, y esta es la justificación.
 
 **Requisito del profe:** confidencialidad (15 %).
-**En el código:** `common/crypto.py` → `aes_cbc_encrypt()` / `aes_cbc_decrypt()`.
+**En el código:** `common/aes_cbc.py` → `aes_cbc_encrypt()` / `aes_cbc_decrypt()`.
 
 ---
 
@@ -440,7 +440,7 @@ $$
 **Si no estuviera:** el atacante modifica mensajes (bit-flipping, §5.5) o inventa paquetes.
 
 **Requisito del profe:** integridad y autenticación de mensajes (15 %) + "reject any message whose ciphertext, authentication information, sender information, or freshness data has been altered".
-**En el código:** `common/crypto.py` → `hmac_sha256()`; `common/protocol.py` → `seal()`.
+**En el código:** `common/tag.py` → `make_tag()`; `common/protocol.py` → `seal()`.
 
 ---
 
@@ -563,6 +563,7 @@ No toca el protocolo: solo **muestra** en la demo lo que decidió el receptor.
                                                                 ¿1 < YA < p−1?
                                                                 NB ← urandom(16), b ← urandom(32)
                                                                 YB ← g^b mod p
+                                                                Z ← YA^b mod p, HKDF, borrar b y Z
                                                                 HMAC_B ← HMAC(PSK, "B"‖transcript)
          ◄──── RESPONSE: 0x02‖IDB‖NB‖YB‖HMAC_B ─────────────
   ¿1 < YB < p−1?
@@ -572,9 +573,7 @@ No toca el protocolo: solo **muestra** en la demo lo que decidió el receptor.
   borrar a, Z
          ───── CONFIRM: 0x03‖IDA‖HMAC_A ────────────────────►
                                                                 ¿HMAC_A correcto? → A es auténtico
-                                                                Z ← YA^b mod p
-                                                                K_enc, K_mac, SID ← HKDF(...)
-                                                                borrar b, Z
+                                                                (recién aquí se entrega la sesión)
   LED 1 s ✓                                                     sesión lista ✓
 ```
 
@@ -919,7 +918,7 @@ e) El mismo mensaje da siempre el mismo $C$: el atacante sabe cuándo se repite 
 | Hito | Qué se construye | Fichas que usa |
 |---|---|---|
 | 0 ✅ | ESP32 verificada: AES-CBC, SHA-256, `urandom`, `hmac` y `pow` de 2048 bits (1075 ms) | — |
-| 1 | `common/crypto.py`: AES-CBC + PKCS7, HMAC, HKDF, DH, `ct_equal`. El mismo archivo corre en el PC y en la ESP32 | 3.4–3.11, 3.13, 3.15 |
+| 1 ✅ | `common/padding.py`, `aes_cbc.py`, `tag.py`, `hkdf.py`, `dh.py`: un archivo por pieza. Los mismos archivos corren en el PC y en la ESP32 | 3.4–3.11, 3.13, 3.15 |
 | 2 | Wi-Fi + eco UDP ESP32 ↔ PC, sin cripto | — |
 | 3 | `common/protocol.py`: handshake, `seal()` y `open()` de paquetes | 3.1–3.3, 3.7, 3.12–3.16 |
 | 4 | `pc/node.py` + `esp32/main.py` + `esp32/led.py` → chat seguro | todo |

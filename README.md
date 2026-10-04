@@ -11,7 +11,7 @@ Dos ESP32 con MicroPython se mandan mensajes por Wi-Fi (UDP) con confidencialida
 
 | Carpeta | Qué tiene |
 |---|---|
-| `common/` | `crypto.py` y `protocol.py`: el mismo código para el PC y la ESP32 |
+| `common/` | `padding.py`, `aes_cbc.py`, `tag.py`, `hkdf.py`, `dh.py` y `protocol.py`: el mismo código para el PC y la ESP32 |
 | `esp32/` | Programa de la placa |
 | `pc/` | Nodo del PC y atacante |
 | `docs/` | Apuntes y plan de trabajo |
@@ -29,7 +29,11 @@ Copiar `esp32/config.example.py` como `esp32/config.py` y `pc/config.example.py`
 ## Pasar el código a la ESP32
 
 ```
-mpremote connect COM5 fs cp common/crypto.py :crypto.py
+mpremote connect COM5 fs cp common/padding.py :padding.py
+mpremote connect COM5 fs cp common/aes_cbc.py :aes_cbc.py
+mpremote connect COM5 fs cp common/tag.py :tag.py
+mpremote connect COM5 fs cp common/hkdf.py :hkdf.py
+mpremote connect COM5 fs cp common/dh.py :dh.py
 mpremote connect COM5 fs cp common/protocol.py :protocol.py
 mpremote connect COM5 fs cp esp32/led.py :led.py
 mpremote connect COM5 fs cp esp32/config.py :config.py
