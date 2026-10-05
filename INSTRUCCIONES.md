@@ -1,20 +1,59 @@
 # Instrucciones
 
+> **Linux (Fedora).** Esta guía se escribió para Windows. En Linux cambia:
+> `.\subir.ps1 X -Atacante` → `bash subir.sh X --atacante`; `-Prueba medir.py` → argumento `medir.py`;
+> `COM5`/`COM7` → `/dev/ttyUSBx` (ver EXP0); `$IP_ALICE` → `export IP_ALICE=x.x.x.x` (bash/zsh) y se usa como `$IP_ALICE`;
+> `python -m mpremote` → igual (con el venv activo). Los CSV se llaman `latency_esp32.csv` y `measure_esp32.csv`.
+
+## EXP0. Preparación en Linux (una sola vez)
+
+1. **Entorno**
+   ```bash
+   cd ~/Documents/secure-iot-messaging
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+2. **Permisos del puerto serie** (sin esto: `Permission denied` en `/dev/ttyUSB*`)
+   ```bash
+   sudo usermod -aG dialout $USER     # luego cerrar sesión y volver a entrar
+   sudo chmod 666 /dev/ttyUSB0 /dev/ttyUSB1   # alternativa temporal, hasta desconectar el USB
+   ```
+3. **Puertos.** En este equipo: **Alice = `/dev/ttyUSB0`** y **Bob = `/dev/ttyUSB1`** (ya están así en `subir.sh` y `puertos.env`).
+   Ver los puertos conectados: `python -m mpremote devs`. Si reconectas los cables los números pueden cambiar:
+   desconecta una placa, mira cuál puerto desaparece y corrige `puertos.env`.
+   Comprobar que una placa responde con MicroPython: `python -m mpremote connect /dev/ttyUSB0 exec "print('ok')"`.
+   Si no, hay que flashear el firmware: `esptool --chip esp32 --port /dev/ttyUSB0 erase_flash` y
+   `esptool --chip esp32 --port /dev/ttyUSB0 write_flash -z 0x1000 firmware.bin` (bin de micropython.org, ESP32_GENERIC).
+4. **Configs** (ya creadas en este equipo, no se suben a GitHub): `esp32/config_alice.py`, `esp32/config_bob.py`, `pc/config.py`.
+   Faltan solo: `WIFI_PASSWORD` (en las dos placas) y las IPs de las placas. La PSK ya es aleatoria y la misma en los tres.
+5. **Wi-Fi.** El ESP32 solo usa **2.4 GHz** y la laptop y las placas deben estar en la **misma red** (sin "aislamiento de clientes").
+   La IP de la laptop (la del atacante) se ve con `ip -4 -br addr show wlo1` (hoy: `192.168.100.12`).
+   Si la red de casa falla, usa el hotspot del celular (laptop y placas conectadas a él) y cambia `WIFI_SSID`, `WIFI_PASSWORD` e `IP_ATACANTE`.
+6. **Firewall** (Fedora) para que el atacante y el nodo intruso reciban UDP:
+   ```bash
+   sudo firewall-cmd --add-port=6000/udp --add-port=5005/udp     # temporal, hasta reiniciar
+   ```
+7. **Prueba sin placas** (verifica que el código del PC funciona): `python common/protocol.py` debe terminar con `Rejected: handshake` en los ataques.
+
 ## EXP1. Subir códigos y obtener la IP de cada placa
 
 **Bob**
 
-```powershell
-.\subir.ps1 bob
-python -m mpremote connect COM7 repl
+```bash
+bash subir.sh bob
+python -m mpremote connect $PUERTO_BOB repl     # (source puertos.env antes, o escribir /dev/ttyUSBx)
 ```
 
 **Alice**
 
-```powershell
-.\subir.ps1 alice
-python -m mpremote connect COM5 repl
+```bash
+bash subir.sh alice
+python -m mpremote connect $PUERTO_ALICE repl
 ```
+
+En cada consola: Ctrl+C, Ctrl+D (reinicia). Sale `IP: x.x.x.x`. Con las dos IPs, edita `IP_BOB` en `config_alice.py`,
+`IP_ALICE` en `config_bob.py`, `PEERS` en `pc/config.py`, vuelve a subir (`bash subir.sh ambas`) y reinicia.
+Salir de la consola: Ctrl+]. Debe verse `Handshake complete | SID: ...` en ambas.
 
 ## EXP2. Mediciones
 

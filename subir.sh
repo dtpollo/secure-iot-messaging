@@ -10,8 +10,12 @@
 
 set -e
 
-PUERTO_ALICE=${PUERTO_ALICE:-COM5}
-PUERTO_BOB=${PUERTO_BOB:-COM7}
+cd "$(dirname "$0")"
+
+# Ports: from puertos.env (not pushed; see INSTRUCCIONES.md) or from the environment
+[ -f puertos.env ] && . ./puertos.env
+PUERTO_ALICE=${PUERTO_ALICE:-/dev/ttyUSB0}
+PUERTO_BOB=${PUERTO_BOB:-/dev/ttyUSB1}
 COMUNES="padding.py aes_cbc.py tag.py hkdf.py dh.py protocol.py medir.py"
 
 PLACA=$1
@@ -20,8 +24,6 @@ PRUEBA=""
 for arg in "${@:2}"; do
     if [ "$arg" = "--atacante" ]; then ATACANTE=si; else PRUEBA=$arg; fi
 done
-
-cd "$(dirname "$0")"
 
 subir() {
     nombre=$1

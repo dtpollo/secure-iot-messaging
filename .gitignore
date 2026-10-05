@@ -16,3 +16,6 @@ config_bob.py
 CLAUDE.md
 CLAUDE.local.md
 .mcp.json
+
+# Serial ports of this machine
+puertos.env
