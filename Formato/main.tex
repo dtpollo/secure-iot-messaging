@@ -517,7 +517,6 @@ $\mathit{SID}$. The messages sent from one board were verified, decrypted, and
 shown correctly on the other. In addition, all 50 PING and 50 PONG packets of
 the latency test were accepted, which confirms that the whole protocol works on
 the real hardware.
-% TODO: add the screenshot of the normal exchange (both consoles with the same SID and the received message) with \reportfigure{Screenshots/<file>.png}{caption}{fig:normal} — the folder results/Screenshots is still empty
 % TODO: (optional) add the real "Handshake time (HELLO -> CONFIRM)" printed by main.py on Alice and Bob during the two-board run
 
 \paragraph{Sizes and times.} \Cref{tab:sizes} and \cref{fig:sizetime} show the
@@ -573,9 +572,32 @@ messages between the boards, and the share spent on cryptography.}{fig:latency}
 
 \subsection{Security Tests}
 
-% TODO: run the attack tests with the laptop as attacker (subir.ps1 ambas -Atacante): sniff, tamper_c, tamper_tag, replay, forge, mitm; then the intruder without -Atacante: node.py --id 0x99 and node.py --psk-falsa
-% TODO: write here a short paragraph per test, or one table "Test | Expected | Observed" (the expected column is already in tab:testplan), using ONLY what the consoles really showed (rejection reason printed by Bob/Alice, LED behavior, what the attacker saw in sniff mode)
-% TODO: add the console screenshots of each attack (results/Screenshots/) as figures with \reportfigure, or put them in the appendix and reference them from here
+The laptop was placed between the boards as the attacker (\texttt{attacker.py}),
+so every packet from Alice to Bob went through it. The console captures are in
+\cref{app:screens}.
+
+\paragraph{Sniffing.} The attacker forwarded the handshake (HELLO 274~B,
+RESPONSE 306~B, CONFIRM 34~B) and the data packet without changing it. Bob
+printed the message \texttt{Hey Bob!} correctly, while the attacker only saw
+the fields \texttt{TYPE}, \texttt{IDS}, \texttt{SID}, \texttt{SEQ},
+\texttt{IV}, \texttt{C}, and \texttt{TAG} as bytes, so the text was not readable
+(\cref{fig:normal-bob,fig:normal-sniff}).
+
+\paragraph{Modified ciphertext.} The attacker changed one bit of $C$
+(\texttt{f9}~$\rightarrow$~\texttt{f8}) and left the rest of the packet as it
+was. Bob printed \texttt{Rejected: TAG} and did not show any message
+(\cref{fig:tamperc-attacker,fig:tamperc-bob}).
+
+\paragraph{Replay.} The attacker sent the same valid packet twice. Bob accepted
+the first one and printed the message, and then printed
+\texttt{Rejected: replay} for the second one, which was identical
+(\cref{fig:replay-attacker,fig:replay-bob}).
+
+\paragraph{Forged packet.} The attacker replaced $\mathit{IV}$, $C$, and
+$\mathit{TAG}$ with values of its own, without knowing the keys. Bob printed
+\texttt{Rejected: TAG} (\cref{fig:forge-attacker,fig:forge-bob}).
+
+% TODO: tamper_tag, mitm and the intruder tests (node.py --id 0x99 and --psk-falsa) are not run yet; add them here only if they are run
 
 \subsection{Discussion}
 
@@ -700,10 +722,20 @@ ESP32 would address the limits described in the previous section.
 
 \appendix
 
-% TODO: uncomment the next line and add the console screenshots of each attack below it, once the tests are done
-% \section{Additional Material}
+\section{Additional Material}
 
-% TODO: add a subsection "Screenshots of the Security Tests" with the console captures of each attack (results/Screenshots/), one figure per test, after running them
+\subsection{Screenshots of the Security Tests}
+\label{app:screens}
+
+\reportfigure[0.75\textwidth]{Screenshots/01_normal_bob.png}{Normal exchange: Bob receives the message.}{fig:normal-bob}
+\reportfigure[0.75\textwidth]{Screenshots/01_normal_sniff.png}{Sniffing: the attacker only sees bytes.}{fig:normal-sniff}
+\reportfigure[0.75\textwidth]{Screenshots/02_tamper_c_attacker.png}{Modified ciphertext: the attacker changes one bit of $C$.}{fig:tamperc-attacker}
+\reportfigure[0.75\textwidth]{Screenshots/02_tamper_c_bob.png}{Modified ciphertext: Bob rejects the packet (TAG).}{fig:tamperc-bob}
+\reportfigure[0.75\textwidth]{Screenshots/04_replay_attacker.png}{Replay: the attacker sends the same packet twice.}{fig:replay-attacker}
+\reportfigure[0.75\textwidth]{Screenshots/04_replay_bob.png}{Replay: Bob accepts the first packet and rejects the second.}{fig:replay-bob}
+\reportfigure[0.75\textwidth]{Screenshots/05_forge_attacker.png}{Forgery: the attacker replaces IV, $C$, and TAG.}{fig:forge-attacker}
+\reportfigure[0.75\textwidth]{Screenshots/05_forge_bob.png}{Forgery: Bob rejects the packet (TAG).}{fig:forge-bob}
+
 % TODO: (optional) add the link to the GitHub repository and to the demo video, once they are final
 
 \end{document}
