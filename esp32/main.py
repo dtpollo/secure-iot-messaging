@@ -31,7 +31,17 @@ N_PING = 50                 # repetitions for the latency
 
 def conectar_wifi():
     wifi = network.WLAN(network.STA_IF)
-    wifi.active(True)
+    # After a soft reboot the driver can be left in a bad state: reset it and retry
+    for _ in range(3):
+        try:
+            wifi.active(False)
+            time.sleep_ms(300)
+            wifi.active(True)
+            break
+        except OSError:
+            time.sleep_ms(500)
+    else:
+        raise OSError("Wi-Fi driver error: press the EN button")
     if not wifi.isconnected():
         wifi.connect(config.WIFI_SSID, config.WIFI_PASSWORD)
         inicio = time.ticks_ms()
