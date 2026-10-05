@@ -1,16 +1,15 @@
-# Entorno virtual de Python (cada uno crea el suyo)
+# Python virtual environment (each of us creates their own)
 venv/
 __pycache__/
 *.pyc
 
-# Archivos que deja Windows al copiar
+# Files that Windows leaves when copying
 *Zone.Identifier
 
-# Configuración real con las PSK: NO se sube (se sube config.example.py)
+# Real config with the PSK and the Wi-Fi password: NOT uploaded (the *.example.py files are)
 config.py
+config_alice.py
+config_bob.py
 
-# Archivos personales (no son parte del proyecto)
-.claude/
-CLAUDE.md
-CLAUDE.local.md
-.mcp.json
+# Serial ports of this machine
+puertos.env

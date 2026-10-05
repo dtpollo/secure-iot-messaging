@@ -1,2 +1,13 @@
-cryptography
-mpremote
+# Install with:  pip install -r requirements.txt
+#
+# The ESP32 libraries (cryptolib, hashlib, os, socket, network, machine)
+# are already inside MicroPython: they are NOT installed with pip.
+# hmac: if the board does not have it, install it with  python -m mpremote connect COM5 mip install hmac  (see README)
+
+# --- Tools for the ESP32 ---
+esptool          # flash the MicroPython firmware on the board
+mpremote         # copy files, run scripts and open the board's console
+
+# --- For the PC code (attacker.py, node.py and the plots) ---
+cryptography     # AES-CBC on the PC (the ESP32 uses cryptolib)
+matplotlib       # plots of the measurements (results/plot_results.py)
