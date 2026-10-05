@@ -616,7 +616,19 @@ the Wi-Fi network. The RTT varies a lot between samples, probably because of the
 power saving of the ESP32 Wi-Fi and the phone hotspot, while the cryptographic
 times vary by only 1 to 2~ms. Overall, a quarter of a second per direction is
 acceptable for short text messages.
-% TODO: after the attack tests, add a paragraph that interprets the security results (why each attack was rejected, which check of Listing lst:open stopped it, and why the MITM and the intruder could not obtain a session)
+
+The security tests agree with the order of the checks in \cref{lst:open}. In
+the sniffing test the attacker saw the header in clear text, but $C$ and
+$\mathit{TAG}$ were only bytes, because the content is encrypted with a key that
+never travels on the network. When the attacker changed one bit of $C$ or
+replaced $\mathit{IV}$, $C$, and $\mathit{TAG}$, the second check failed: the
+HMAC covers the whole header and the ciphertext, and without $K_{mac}$ the
+attacker cannot compute a valid one. Since this check happens before decrypting,
+Bob did not process any of the altered data. The replay was different: the
+repeated packet was a real one, so its $\mathit{TAG}$ was valid and it passed
+the second check, and it was the third check (\texttt{seq <= ultimo\_seq}) that
+rejected it. This shows that the counter is needed even when the $\mathit{TAG}$
+is correct.
 
 % ============================================================
 % 7. KEY QUESTIONS AND DESIGN INSIGHTS
@@ -696,7 +708,13 @@ with a tag that covers the whole header and is checked before decryption.
 The normal exchange between the two boards works, and the measurements show the
 practical cost on the ESP32: about 70~ms and 50 to 58 bytes per message, mostly
 due to the HMAC, plus a handshake of about 7.6~s once per session.
-% TODO: add the conclusion about the security tests (only after running them): whether every attack was detected and rejected, and whether the unauthorized device was unable to open a session
+
+In the security tests, the laptop acted as an attacker between the boards. It
+could not read the message, and every modified, repeated, or forged packet was
+rejected by Bob, with \texttt{Rejected: TAG} for the first and the last, and
+\texttt{Rejected: replay} for the second. The tests of the MITM attack and of the
+unauthorized device were not run, so the device authentication is supported only
+by the design and not by an experiment.
 
 % ============================================================
 % 9. FUTURE WORK
