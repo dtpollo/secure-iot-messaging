@@ -3,8 +3,8 @@
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
-% This file may safely be deleted. It will be recreated by
-% biber as required.
+% This file may safely be deleted. It will be recreated as
+% required.
 %
 \begingroup
 \makeatletter
@@ -16,45 +16,85 @@
   {}
 \endgroup
 
+\datalist[entry]{none/global//global/global/global}
+  \entry{katz2020introduction}{book}{}{}
+    \name{author}{2}{}{%
+      {{hash=KJ}{%
+         family={Katz},
+         familyi={K\bibinitperiod},
+         given={Jonathan},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=LY}{%
+         family={Lindell},
+         familyi={L\bibinitperiod},
+         given={Yehuda},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {CRC Press}%
+    }
+    \strng{namehash}{KJLY1}
+    \strng{fullhash}{KJLY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{edition}{3}
+    \field{title}{Introduction to Modern Cryptography}
+    \list{location}{1}{%
+      {Boca Raton, FL, USA}%
+    }
+    \field{year}{2020}
+  \endentry
 
-\refsection{0}
-  \datalist[entry]{none/global//global/global/global}
-    \entry{katz2020introduction}{book}{}{}
-      \name{author}{2}{}{%
-        {{hash=85053e14c4a72772970b91a572b9b9c1}{%
-           family={Katz},
-           familyi={K\bibinitperiod},
-           given={Jonathan},
-           giveni={J\bibinitperiod}}}%
-        {{hash=e20af851262c583d34b7a667a7039cb4}{%
-           family={Lindell},
-           familyi={L\bibinitperiod},
-           given={Yehuda},
-           giveni={Y\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {Boca Raton, FL, USA}%
-      }
-      \list{publisher}{1}{%
-        {CRC Press}%
-      }
-      \strng{namehash}{071317b1567a0e9750e8234cb19c146d}
-      \strng{fullhash}{071317b1567a0e9750e8234cb19c146d}
-      \strng{fullhashraw}{071317b1567a0e9750e8234cb19c146d}
-      \strng{bibnamehash}{071317b1567a0e9750e8234cb19c146d}
-      \strng{authorbibnamehash}{071317b1567a0e9750e8234cb19c146d}
-      \strng{authornamehash}{071317b1567a0e9750e8234cb19c146d}
-      \strng{authorfullhash}{071317b1567a0e9750e8234cb19c146d}
-      \strng{authorfullhashraw}{071317b1567a0e9750e8234cb19c146d}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{edition}{3}
-      \field{title}{Introduction to Modern Cryptography}
-      \field{year}{2020}
-    \endentry
-  \enddatalist
-\endrefsection
+  \entry{rfc7919}{report}{}{}
+    \name{author}{1}{}{%
+      {{hash=GDK}{%
+         family={Gillmor},
+         familyi={G\bibinitperiod},
+         given={Daniel\bibnamedelima Kahn},
+         giveni={D\bibinitperiod\bibinitdelim K\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GDK1}
+    \strng{fullhash}{GDK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{number}{7919}
+    \field{title}{Negotiated Finite Field {Diffie-Hellman} Ephemeral Parameters for Transport Layer Security ({TLS})}
+    \list{institution}{1}{%
+      {Internet Engineering Task Force}%
+    }
+    \field{type}{RFC}
+    \field{year}{2016}
+  \endentry
+
+  \entry{rfc5869}{report}{}{}
+    \name{author}{2}{}{%
+      {{hash=KH}{%
+         family={Krawczyk},
+         familyi={K\bibinitperiod},
+         given={Hugo},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=EP}{%
+         family={Eronen},
+         familyi={E\bibinitperiod},
+         given={Pasi},
+         giveni={P\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{KHEP1}
+    \strng{fullhash}{KHEP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{number}{5869}
+    \field{title}{{HMAC}-based Extract-and-Expand Key Derivation Function ({HKDF})}
+    \list{institution}{1}{%
+      {Internet Engineering Task Force}%
+    }
+    \field{type}{RFC}
+    \field{year}{2010}
+  \endentry
+\enddatalist
 \endinput
-
