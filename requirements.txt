@@ -1,13 +1,13 @@
-# Instalar con:  pip install -r requirements.txt
+# Install with:  pip install -r requirements.txt
 #
-# Las librerias de la ESP32 (cryptolib, hashlib, hmac, os, socket, network, machine)
-# ya vienen dentro de MicroPython: NO se instalan con pip.
+# The ESP32 libraries (cryptolib, hashlib, os, socket, network, machine)
+# are already inside MicroPython: they are NOT installed with pip.
+# hmac: if the board does not have it, install it with  python -m mpremote connect COM5 mip install hmac  (see README)
 
-# --- Herramientas para la ESP32 (siempre se necesitan) ---
-esptool          # flashear el firmware de MicroPython en la placa
-mpremote         # copiar archivos, ejecutar scripts y abrir la consola de la placa
+# --- Tools for the ESP32 ---
+esptool          # flash the MicroPython firmware on the board
+mpremote         # copy files, run scripts and open the board's console
 
-# --- Solo para correr el codigo en el PC ---
-# Se puede quitar cuando ya no se use pc/node.py (ojo: la prueba del dispositivo
-# no autorizado, node.py --id 0x99, corre en el PC y lo necesita)
-cryptography     # AES-CBC en el PC (en la ESP32 se usa cryptolib)
+# --- For the PC code (attacker.py, node.py and the plots) ---
+cryptography     # AES-CBC on the PC (the ESP32 uses cryptolib)
+matplotlib       # plots of the measurements (results/plot_results.py)

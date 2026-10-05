@@ -1,105 +1,86 @@
-# Plan de trabajo
+# Work plan
 
-**Entrega: domingo 4 de octubre.**
-Cada uno trabaja su parte con su propia ESP32 y su PC. Al final nos juntamos para probar ESP32 ↔ ESP32 y grabar la demo.
+**Deadline: Sunday, October 4.**
+Each of us works on their part with their own ESP32 and PC. At the end we meet to test ESP32 ↔ ESP32 and record the demo.
 
-## 1. Qué pide el profe
+## 1. What the professor asks for
 
-- [ ] Establecer una clave de sesión (DH + PSK) y explicar cómo se autentican los dispositivos
-- [ ] Cifrar todos los mensajes
-- [ ] Rechazar mensajes con el ciphertext, el TAG, el remitente o el SEQ cambiados
-- [ ] Detectar mensajes repetidos (replay)
-- [ ] Usar solo algoritmos y librerías estándar
-- [ ] Probar: comunicación normal, ciphertext alterado, TAG alterado, replay, paquete falso y dispositivo no autorizado
-- [ ] Medir: tamaño del mensaje, tamaño del paquete, tiempo de cifrado, tiempo de descifrado y latencia
-- [ ] Entregar: código, diagrama de arquitectura, diagrama de secuencia, formato del paquete e informe
+- [ ] Set up a session key (DH + PSK) and explain how the devices are authenticated
+- [ ] Encrypt every message
+- [ ] Reject messages with a changed ciphertext, TAG, sender or SEQ
+- [ ] Detect repeated messages (replay)
+- [ ] Use only standard algorithms and libraries
+- [ ] Test: normal communication, modified ciphertext, modified TAG, replay, forged packet and unauthorized device
+- [ ] Measure on the ESP32: message size, packet size, encryption time, decryption time and latency
+- [ ] Deliver: code, architecture diagram, sequence diagram, packet format and report
 
-## 2. Quién hace qué
+## 2. Who does what
 
-| | Integrante A: ________ | Integrante B: ________ |
+| | Member A: ________ | Member B: ________ |
 |---|---|---|
-| Parte | Criptografía y protocolo | Red, ESP32 y ataques |
-| Archivos | `common/padding.py`, `aes_cbc.py`, `tag.py`, `hkdf.py`, `dh.py`, `protocol.py` | `esp32/main.py`, `esp32/led.py`, `pc/node.py`, `pc/attacker.py` |
+| Part | Cryptography and protocol | Network, ESP32 and attacks |
+| Files | `common/padding.py`, `aes_cbc.py`, `tag.py`, `hkdf.py`, `dh.py`, `protocol.py`, `medir.py` | `esp32/main.py`, `esp32/led.py`, `pc/node.py`, `pc/attacker.py` |
 
-Cada archivo tiene arriba su lista **"Por hacer"**.
+## 3. How the two parts connect
 
-## 3. Cómo se conectan las dos partes
-
-B usa solo estas funciones de `protocol.py`:
+B only uses these functions from `protocol.py`:
 
 ```python
-# el que inicia
+# the one who starts
 hs = protocol.Initiator(my_id, psks)
 hello = hs.hello(peer_id)
 confirm, session = hs.on_response(response)
 
-# el que responde
+# the one who answers
 hs = protocol.Responder(my_id, psks)
 response = hs.on_hello(hello)
 session = hs.on_confirm(confirm)
 
-# mensajes
-paquete = session.seal(b"Hola")
-mensaje = session.open(paquete)     # si falla lanza protocol.Rejected("motivo")
+# messages
+packet = session.seal(b"Hello")
+message = session.open(packet)     # if it fails it raises protocol.Rejected("reason")
 ```
 
-`protocol.py` ya es la **versión real** (DH + PSK, AES-CBC, HMAC). Los nombres no cambiaron.
+`protocol.py` is already the **real version** (DH + PSK, AES-CBC, HMAC). The names did not change.
 
-## 4. Cronograma
+## 4. Status
 
-### Hoy (sábado) en la noche
+**Code (done)**
+- [x] Implement the crypto modules, each with its own test (`padding`, `aes_cbc`, `tag`, `hkdf`, `dh`, `protocol`)
+- [x] Write the chat in `main.py` (handshake retry, time per message, latency)
+- [x] Write `led.py` with its test
+- [x] Write the 6 modes of `attacker.py` and its offline test (`--test`)
+- [x] Write the intruder in `node.py` (`--id 0x99` and `--psk-falsa`)
+- [x] Write `common/medir.py` (sizes and times with n = 100)
 
-- [ ] Hacer `git pull` y leer este plan
-- [ ] Instalar: `pip install -r requirements.txt`
-- [ ] Crear los `config.py` a partir de los `config.example.py`
-- [ ] Decidir quién es A y quién es B
+**Prepare the two boards**
+- [x] Flash MicroPython on both and check `import hmac` (README §3)
+- [x] Create `esp32/config_alice.py` (COM5) and `esp32/config_bob.py` (COM7) with the same PSK
+- [x] Put Bob's IP in `config_alice.py` and in `pc/config.py`
+- [x] Upload the code to both boards with `.\subir.ps1 ambas`
 
-### Mañana en la mañana: cada uno su parte
+**Test (README §6–§9)**
+- [ ] Run each module's test on the board
+- [x] Test ESP32 ↔ ESP32
+- [ ] Run the attacks in the table
+- [x] Measure with `medir.py` on the board
+- [ ] Measure the latency again with option `3` (50 PINGs) and copy `latency_esp32.csv` to `results/`
+- [ ] Make the plots with `python results/plot_results.py`
+- [ ] Record a video and take screenshots
 
-**A**
-- [x] Implementar los módulos cripto (`padding`, `aes_cbc`, `tag`, `hkdf`, `dh`)
-- [x] Cambiar `protocol.py` a la versión real (DH + PSK, AES-CBC, HMAC)
-- [ ] Probar el handshake ESP32 ↔ PC con su placa
+| Test | How | What you must see |
+|---|---|---|
+| Normal communication | `.\subir.ps1 ambas -Atacante` and `attacker.py --mode sniff` | The message arrives; the attacker only sees ciphertext |
+| Modified ciphertext | `--mode tamper_c` | `Rejected: TAG` |
+| Modified TAG | `--mode tamper_tag` | `Rejected: TAG` |
+| Replay | `--mode replay` | `Message received` and then `Rejected: replay` |
+| Forged packet | `--mode forge` | `Rejected: TAG` |
+| MITM | `--mode mitm` | `Rejected: handshake` on Alice, then she connects |
+| Unauthorized ID | `node.py --id 0x99` against Bob | `Rejected: handshake` |
+| Valid ID without PSK | `node.py --psk-falsa` against Bob | `Rejected: handshake` |
 
-**B**
-- [ ] Conectar la ESP32 al Wi-Fi y mandar un mensaje UDP al PC
-- [ ] Programar el chat en `main.py` y `node.py`
-- [ ] Programar `led.py`
-- [ ] Programar los 5 modos de `attacker.py`
-- [ ] Programar `--id` y `--bench` en `node.py`
+## 5. Rules
 
-### Mañana al mediodía: juntar las partes (cada uno en su casa)
-
-- [ ] A: subir el `protocol.py` real y avisar
-- [ ] B: hacer `git pull` y copiar el código nuevo a su placa
-- [ ] Los dos: probar todo con su ESP32 + PC (tabla de abajo)
-
-| Prueba | Qué se debe ver |
-|---|---|
-| Comunicación normal | El mensaje llega igual |
-| `--mode sniff` | Solo se ve texto cifrado |
-| `--mode tamper_c` | `Rechazado: TAG` |
-| `--mode tamper_tag` | `Rechazado: TAG` |
-| `--mode replay` | `Rechazado: replay` |
-| `--mode forge` | `Rechazado: TAG` |
-| `node.py --id 0x99` | `Rechazado: handshake` |
-
-### Mañana en la tarde: prueba final juntos
-
-- [ ] Generar una PSK nueva y ponerla en las dos placas
-- [ ] Probar ESP32 ↔ ESP32 y todos los ataques de la tabla
-- [ ] Medir los tiempos
-- [ ] Grabar video y sacar capturas
-
-### Mañana en la noche: entregar
-
-- [ ] Hacer el diagrama de arquitectura y el de secuencia
-- [ ] Escribir el formato del paquete
-- [ ] Escribir el informe con los resultados
-- [ ] Hacer el último push y entregar
-
-## 5. Reglas
-
-- No subir nunca `config.py` (tiene las claves)
-- Hacer `git pull` antes de empezar a trabajar
-- No cambiar los nombres de las funciones de la sección 3 sin avisar al otro
+- Never upload `config.py`, `config_alice.py` or `config_bob.py` (they have the keys)
+- Run `git pull` before you start working
+- Do not change the function names in section 3 without telling the other member

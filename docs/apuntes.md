@@ -74,8 +74,8 @@ Las ESP32 hablan por Wi-Fi (UDP). El enunciado dice que el canal **no es confiab
 | **Modificar** paquetes | `--mode tamper_c`, `--mode tamper_tag` |
 | **Inyectar** paquetes inventados | `--mode forge` |
 | **Repetir** paquetes viejos | `--mode replay` |
-| **Hacerse pasar** por un dispositivo | `node.py --id 0x99` |
-| **Meterse en medio** del handshake (MITM) | relevo en `attacker.py` |
+| **Hacerse pasar** por un dispositivo | `node.py --id 0x99` y `node.py --psk-falsa` |
+| **Meterse en medio** del handshake (MITM) | `attacker.py --mode mitm` |
 
 Lo que **no** puede: romper AES, SHA-256 o el logaritmo discreto, ni conocer la $\mathit{PSK}$.
 
@@ -881,8 +881,8 @@ e) El mismo mensaje da siempre el mismo $C$: el atacante sabe cuándo se repite 
 | 6 | Detectar repetidos (§2) | $\mathit{SID}$ + $\mathit{SEQ}$ creciente | Sin relojes sincronizados no sirven los timestamps | replay |
 | 7 | Sin cripto propia, librerías estándar (§2) | ESP32: `cryptolib`, `hashlib`, `hmac`, `urandom`, `pow`. PC: `cryptography`, `hmac`, `hashlib` | AES, SHA-256, HMAC, HKDF y DH son estándares | `import` del código |
 | 8 | Formato documentado (§3) | El de referencia + $\mathit{TYPE}$. El $N$ es el $\mathit{IV}$ | $\mathit{TYPE}$ distingue handshake y datos | §4 de estos apuntes |
-| 9 | 6 pruebas de seguridad (§4) | `attacker.py` (sniff, tamper_c, tamper_tag, replay, forge) + `node.py --id 0x99` + MITM | Una prueba por cada caso del enunciado | Demo + capturas |
-| 10 | Métricas y overhead (§5) | `node.py --bench` + tiempo del handshake | La latencia es $\mathrm{RTT}/2$ | Tablas en el informe |
+| 9 | 6 pruebas de seguridad (§4) | `attacker.py` (sniff, tamper_c, tamper_tag, replay, forge, mitm) + `node.py --id 0x99` y `--psk-falsa` | Una prueba por cada caso del enunciado | Demo + capturas |
+| 10 | Métricas y overhead (§5) | `common/medir.py` + opción "Medir latencia" de `main.py` / `node.py` | La latencia es $\mathrm{RTT}/2$ | Tablas en el informe |
 | 11 | Código, diagramas, formato, informe, reproducible (§6) | `docs/` + README | — | Entrega |
 | 12 | Las 4 propiedades en **un** protocolo (§8) | Todo en `protocol.py` | — | Demo completa |
 
@@ -923,7 +923,7 @@ e) El mismo mensaje da siempre el mismo $C$: el atacante sabe cuándo se repite 
 | 3 | `common/protocol.py`: handshake, `seal()` y `open()` de paquetes | 3.1–3.3, 3.7, 3.12–3.16 |
 | 4 | `pc/node.py` + `esp32/main.py` + `esp32/led.py` → chat seguro | todo |
 | 5 | `pc/attacker.py`: sniff, tamper_c, tamper_tag, replay, forge, MITM + nodo no autorizado | §3, resumen |
-| 6 | `--bench`: métricas | §4 |
+| 6 | `common/medir.py` y opción "Medir latencia": métricas | §4 |
 | 7 | Diagramas + informe | §7, §8 |
 | 8 | Demo con la segunda ESP32 | — |
 

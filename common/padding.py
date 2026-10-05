@@ -25,7 +25,7 @@ def pkcs7_unpad(data):
 # Test the padding
 if __name__ == "__main__":
 
-    sms = "criptografia poscuantica en TLS".encode()
+    sms = "post-quantum crypto in TLS".encode()
     p = pkcs7_pad(sms)
     print(f"I.len: {len(sms)}, F.len: {len(p)}")
     print(f"SMS: {sms}")
@@ -34,3 +34,20 @@ if __name__ == "__main__":
     d = pkcs7_unpad(p)
     print(f"U.len: {len(d)}")
     print(f"SMS: {d.decode()}")
+    # A message that is already a multiple of 16 gets a full extra block
+    p16 = pkcs7_pad(b"A" * 16)
+    print(f"16 B -> {len(p16)} B, last byte: {p16[-1]}")
+
+    # Bad padding must raise ValueError (the receiver never sees this: the TAG fails first)
+    bad = [
+        ("length not multiple of 16", p[:-1]),
+        ("last byte = 0", p[:-1] + b"\x00"),
+        ("last byte = 17", p[:-1] + b"\x11"),
+        ("bytes do not match", b"A" * 14 + b"\x01\x02"),
+    ]
+    for name, data in bad:
+        try:
+            pkcs7_unpad(data)
+            print(f"{name}: ACCEPTED (wrong)")
+        except ValueError as e:
+            print(f"{name}: rejected ({e})")

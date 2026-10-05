@@ -1,0 +1,19 @@
+EXP1.
+Subir codigos y obtener la IP de cada uno:
+    - Bob:
+        * subir.ps1 bob
+        * python -m mpremote connect COM7 repl
+    - Alice:
+        * subir.ps1 alice
+        * python -m mpremote connect COM5 repl
+
+EXP2.
+1. Subo codigos a la vez
+    * subir.ps1 ambas
+2. Igual que antes
+3. Bob recibe y Alice prueba latencia
+4. Bajar los resultados al pc
+    * python -m mpremote connect COM5 fs cp :latencia_esp32.csv results/latencia_esp32.csv
+5. Correr las mediciones Alice y bajarlas al pc
+    * .\subir.ps1 alice -Prueba medir.py
+    * python -m mpremote connect COM5 fs cp :medir_esp32.csv results/medir_esp32.csv
