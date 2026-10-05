@@ -1,0 +1,194 @@
+% ============================================================
+% CHEATSHEET — worked examples of every cryptography facility
+% provided by crypto.tex.  Compile with:  latexmk -pdf cheatsheet
+% This file is a reference, not part of your reports.
+% ============================================================
+\documentclass[11pt,a4paper]{article}
+
+\input{packages.tex}
+
+\renewcommand{\reporttitle}{Cryptography Toolkit}
+
+\begin{document}
+
+\thispagestyle{fancy}
+
+\begin{center}
+    {\Large\bfseries Cryptography Toolkit --- Quick Reference\par}
+    \vspace{0.2cm}
+    {\small Everything defined in \texttt{crypto.tex}, shown in use.\par}
+\end{center}
+
+\vspace{0.4cm}
+
+% ============================================================
+\section{Theorem environments}
+
+All theorem-like environments share one counter numbered within the section,
+so cross-references stay unambiguous.
+
+\begin{definition}[Perfect secrecy]\label{def:perfect}
+    An encryption scheme $(\Gen,\Enc,\Dec)$ over message space $\msgspace$ is
+    \term{perfectly secret} if for every $m_0,m_1 \in \msgspace$ and every
+    ciphertext $c \in \ctspace$,
+    \begin{equation}
+        \Prob{\Enc_k(m_0) = c} = \Prob{\Enc_k(m_1) = c},
+        \label{eq:perfect}
+    \end{equation}
+    where $k \getsr \keyspace$.
+\end{definition}
+
+\begin{theorem}[Shannon]\label{thm:shannon}
+    If a scheme over $\msgspace$ with key space $\keyspace$ is perfectly
+    secret, then $\abs{\keyspace} \geq \abs{\msgspace}$.
+\end{theorem}
+
+\begin{proof}
+    Suppose $\abs{\keyspace} < \abs{\msgspace}$. Fix a ciphertext $c$ with
+    $\Prob{C = c} > 0$ and let
+    $\msgspace(c) = \{\, \Dec_k(c) : k \in \keyspace \,\}$. Then
+    $\abs{\msgspace(c)} \leq \abs{\keyspace} < \abs{\msgspace}$, so some
+    $m' \in \msgspace$ lies outside $\msgspace(c)$ and
+    $\Prob{\Enc_k(m') = c} = 0$, contradicting \cref{def:perfect}.
+\end{proof}
+
+\begin{construction}[One-time pad]\label{con:otp}
+    Over $\msgspace = \bitstr{n}$: $\Gen$ outputs $k \getsr \bitstr{n}$;
+    $\Enc_k(m) = k \xor m$; $\Dec_k(c) = k \xor c$.
+\end{construction}
+
+\begin{lemma}\label{lem:otp}
+    \Cref{con:otp} satisfies \cref{def:perfect} and meets the bound of
+    \cref{thm:shannon} with equality.
+\end{lemma}
+
+\begin{remark}
+    Available: \texttt{definition}, \texttt{theorem}, \texttt{lemma},
+    \texttt{corollary}, \texttt{proposition}, \texttt{claim},
+    \texttt{construction}, \texttt{example}, \texttt{remark}, \texttt{proof}.
+\end{remark}
+
+% ============================================================
+\section{Algorithms}
+
+\begin{algorithm}[H]
+\caption{Square-and-multiply modular exponentiation.}
+\label{alg:modexp}
+\begin{algorithmic}[1]
+    \Require $a \in \Zn{n}$, exponent $e = \sum_{i=0}^{t} e_i 2^i$, modulus $n$
+    \Ensure $a^{e} \bmod n$
+    \State $r \gets 1$
+    \State $b \gets a \bmod n$
+    \For{$i \gets 0$ \textbf{to} $t$}
+        \If{$e_i = 1$}
+            \State $r \gets r \cdot b \bmod n$
+        \EndIf
+        \State $b \gets b^{2} \bmod n$
+    \EndFor
+    \State \Return $r$
+\end{algorithmic}
+\end{algorithm}
+
+\Cref{alg:modexp} runs in $O(\log e)$ modular multiplications.
+
+\begin{algorithm}[H]
+\caption{Extended Euclidean algorithm.}
+\label{alg:egcd}
+\begin{algorithmic}[1]
+    \Require $a, b \in \Nset$ with $a \geq b > 0$
+    \Ensure $(d, x, y)$ such that $d = \gcd(a,b) = ax + by$
+    \Function{ExtGCD}{$a, b$}
+        \If{$b = 0$}
+            \State \Return $(a, 1, 0)$
+        \EndIf
+        \State $(d, x', y') \gets \Call{ExtGCD}{b,\; a \bmod b}$
+        \State \Return $\bigl(d,\; y',\; x' - \floor{a/b} \cdot y'\bigr)$
+    \EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+% ============================================================
+\section{Protocol diagrams}
+
+\begin{protocol}{Diffie--Hellman key exchange over $\Zns{p}$.}{prot:dh}
+    % --- parties ---
+    \node[party] (A) at (0,0) {Alice};
+    \node[party] (B) at (9,0) {Bob};
+
+    \draw[lifeline] (A) -- ++(0,-5.2);
+    \draw[lifeline] (B) -- ++(0,-5.2);
+
+    % --- local computation ---
+    \node[compute, anchor=north] at ($(A)+(0,-0.7)$)
+        {$a \getsr \Zn{p-1}$\\$A = g^{a} \bmod p$};
+    \node[compute, anchor=north] at ($(B)+(0,-0.7)$)
+        {$b \getsr \Zn{p-1}$\\$B = g^{b} \bmod p$};
+
+    % --- messages ---
+    \draw[msg] ($(A)+(0.7,-2.4)$) -- ($(B)+(-0.7,-2.4)$)
+        node[msglabel, midway] {$A$};
+    \draw[msg] ($(B)+(-0.7,-3.2)$) -- ($(A)+(0.7,-3.2)$)
+        node[msglabel, midway] {$B$};
+
+    % --- shared secret ---
+    \node[compute, anchor=north] at ($(A)+(0,-3.8)$)
+        {$s = B^{a} \bmod p$};
+    \node[compute, anchor=north] at ($(B)+(0,-3.8)$)
+        {$s = A^{b} \bmod p$};
+\end{protocol}
+
+Both parties in \cref{prot:dh} derive $s = g^{ab} \bmod p$. Styles available
+inside a \texttt{protocol} environment: \texttt{party}, \texttt{lifeline},
+\texttt{msg}, \texttt{msglabel}, \texttt{compute}.
+
+% ============================================================
+\section{Notation macros}
+
+\begin{table}[H]
+    \centering
+    \caption{Notation macros defined in \texttt{crypto.tex}.}
+    \label{tab:macros}
+    % Plain tabular, not tabularx: tabularx typesets its body twice to measure
+    % the X column, and \verb is unreliable under that (it inserts a stray space).
+    \begin{tabular}{@{}llp{7.2cm}@{}}
+        \toprule
+        \textbf{Macro} & \textbf{Output} & \textbf{Use} \\
+        \midrule
+        \verb|\Zn{n}|      & $\Zn{n}$      & Integers modulo $n$ \\
+        \verb|\Zns{p}|     & $\Zns{p}$     & Multiplicative group \\
+        \verb|\Fq{q}|      & $\Fq{q}$      & Finite field \\
+        \verb|\bitstr{n}|  & $\bitstr{n}$  & Bit strings of length $n$ \\
+        \verb|\bits|       & $\bits$       & The set $\{0,1\}$ \\
+        \verb|\xor|        & $a \xor b$    & Bitwise XOR \\
+        \verb|\concat|     & $a \concat b$ & Concatenation \\
+        \verb|\getsr|      & $x \getsr S$  & Uniform sampling \\
+        \verb|\Enc \Dec|   & $\Enc,\Dec$   & Encryption / decryption \\
+        \verb|\Gen|        & $\Gen$        & Key generation \\
+        \verb|\Sign \Vrfy| & $\Sign,\Vrfy$ & Signing / verification \\
+        \verb|\Mac|        & $\Mac$        & Message authentication \\
+        \verb|\Hash|       & $\Hash$       & Hash function \\
+        \verb|\adv|        & $\adv$        & Adversary \\
+        \verb|\secpar|     & $\secpar$     & Security parameter \\
+        \verb|\negl|       & $\negl(\secpar)$ & Negligible function \\
+        \verb|\Adv|        & $\Adv$        & Advantage \\
+        \verb|\ord|        & $\ord(g)$     & Order of an element \\
+        \verb|\lcm|        & $\lcm(a,b)$   & Least common multiple \\
+        \verb|\Prob{...}|  & $\Prob{X = x}$ & Probability \\
+        \verb|\abs{...}|   & $\abs{\keyspace}$ & Absolute value / cardinality \\
+        \verb|\ceil \floor|& $\ceil{x}, \floor{x}$ & Rounding \\
+        \verb|\msgspace|   & $\msgspace$   & Message space \\
+        \verb|\keyspace|   & $\keyspace$   & Key space \\
+        \verb|\ctspace|    & $\ctspace$    & Ciphertext space \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+A worked line combining several of them:
+\begin{equation}
+    \Adv^{\mathrm{ind}}_{\Pi}(\adv)
+    = \abs{\, \Prob{\adv(\Enc_k(m_0)) = 1} - \Prob{\adv(\Enc_k(m_1)) = 1} \,}
+    \leq \negl(\secpar).
+    \label{eq:advantage}
+\end{equation}
+
+\end{document}

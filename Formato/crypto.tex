@@ -1,0 +1,135 @@
+% ============================================================
+% CRYPTOGRAPHY TOOLKIT
+% Theorem environments, algorithm layout, notation macros and
+% TikZ styles for two-party protocol diagrams.
+% This file is loaded at the end of packages.tex.
+% ============================================================
+
+% ---------- Packages ----------
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{arrows.meta,positioning,calc}
+
+% ============================================================
+% THEOREM ENVIRONMENTS
+% All share one counter, numbered within the section
+% (Definition 3.1, Theorem 3.2, ...), which is the usual
+% convention in cryptography texts.
+% ============================================================
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{construction}[definition]{Construction}
+\newtheorem{example}[definition]{Example}
+\newtheorem{remark}[definition]{Remark}
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{claim}[definition]{Claim}
+
+% ---------- cleveref names ----------
+\crefname{definition}{Definition}{Definitions}
+\Crefname{definition}{Definition}{Definitions}
+\crefname{theorem}{Theorem}{Theorems}
+\Crefname{theorem}{Theorem}{Theorems}
+\crefname{lemma}{Lemma}{Lemmas}
+\Crefname{lemma}{Lemma}{Lemmas}
+\crefname{corollary}{Corollary}{Corollaries}
+\Crefname{corollary}{Corollary}{Corollaries}
+\crefname{construction}{Construction}{Constructions}
+\Crefname{construction}{Construction}{Constructions}
+\crefname{algorithm}{Algorithm}{Algorithms}
+\Crefname{algorithm}{Algorithm}{Algorithms}
+\crefname{lstlisting}{Listing}{Listings}
+\Crefname{lstlisting}{Listing}{Listings}
+
+% ============================================================
+% ALGORITHM LAYOUT
+% ============================================================
+
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+\algrenewcommand\algorithmicforall{\textbf{for each}}
+
+% Vertical guide lines for nested blocks
+\algrenewcommand\algorithmicindent{1.1em}
+\makeatletter
+\renewcommand{\ALG@name}{Algorithm}
+\makeatother
+
+% ============================================================
+% NOTATION — NUMBER THEORY
+% ============================================================
+
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Adv}{Adv}
+\DeclareMathOperator{\poly}{poly}
+\DeclareMathOperator{\negl}{negl}
+\DeclareMathOperator{\Supp}{Supp}
+
+% Sets and structures
+\newcommand{\Zset}{\mathbb{Z}}
+\newcommand{\Nset}{\mathbb{N}}
+\newcommand{\Rset}{\mathbb{R}}
+\newcommand{\Fset}{\mathbb{F}}
+\newcommand{\Zn}[1]{\mathbb{Z}_{#1}}          % \Zn{n}  -> Z_n
+\newcommand{\Zns}[1]{\mathbb{Z}_{#1}^{*}}     % \Zns{p} -> Z_p^*
+\newcommand{\Fq}[1]{\mathbb{F}_{#1}}          % \Fq{q}  -> F_q
+\newcommand{\bits}{\{0,1\}}
+\newcommand{\bitstr}[1]{\{0,1\}^{#1}}         % \bitstr{n}
+
+% ============================================================
+% NOTATION — SCHEMES AND OPERATIONS
+% ============================================================
+
+\newcommand{\Gen}{\mathsf{Gen}}
+\newcommand{\Enc}{\mathsf{Enc}}
+\newcommand{\Dec}{\mathsf{Dec}}
+\newcommand{\Sign}{\mathsf{Sign}}
+\newcommand{\Vrfy}{\mathsf{Vrfy}}
+\newcommand{\Mac}{\mathsf{Mac}}
+\newcommand{\PRF}{\mathsf{F}}
+\newcommand{\Hash}{\mathsf{H}}
+\newcommand{\KDF}{\mathsf{KDF}}
+
+\newcommand{\xor}{\oplus}
+\newcommand{\concat}{\mathbin\Vert}
+\newcommand{\getsr}{\stackrel{\scriptscriptstyle\$}{\leftarrow}} % x \getsr S
+
+\newcommand{\secpar}{\lambda}
+\newcommand{\adv}{\mathcal{A}}
+\newcommand{\sect}[1]{\mathcal{#1}}
+\newcommand{\msgspace}{\mathcal{M}}
+\newcommand{\keyspace}{\mathcal{K}}
+\newcommand{\ctspace}{\mathcal{C}}
+
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\Prob}[1]{\Pr\!\left[ #1 \right]}
+
+% ============================================================
+% TIKZ — TWO-PARTY PROTOCOL DIAGRAMS
+% ============================================================
+
+\tikzset{
+    party/.style        = {font=\bfseries},
+    lifeline/.style     = {thick, rulegray, densely dashed},
+    msg/.style          = {-{Stealth[length=2.6mm]}, thick, schoolred},
+    msglabel/.style     = {font=\small, inner sep=2pt, fill=white},
+    compute/.style      = {draw=rulegray, fill=black!3, rounded corners=2pt,
+                           font=\small, inner sep=5pt, align=center}
+}
+
+% \begin{protocol}{caption}{label} ... tikz code ... \end{protocol}
+\newenvironment{protocol}[2]
+  {\def\protocolcaption{#1}\def\protocollabel{#2}%
+   \begin{figure}[H]\centering\begin{tikzpicture}}
+  {\end{tikzpicture}\caption{\protocolcaption}\label{\protocollabel}\end{figure}}

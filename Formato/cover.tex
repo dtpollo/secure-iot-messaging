@@ -1,0 +1,86 @@
+% ============================================================
+% COVER PAGE
+% Formal academic layout: full-bleed institutional bands, centred
+% logo, rule-framed title block and a rule-delimited metadata table.
+% ============================================================
+
+% Fallback in case microtype's letterspacing is unavailable.
+\providecommand{\textls}[2][]{#2}
+
+\begin{titlepage}
+    \thispagestyle{empty}
+    \color{black} % make sure no colour is inherited on the cover
+
+    % ---- Full-bleed institutional bands (top and bottom edges) ----
+    \begin{tikzpicture}[remember picture, overlay]
+        \fill[schoolred]
+            (current page.north west) rectangle
+            ([yshift=-0.55cm]current page.north east);
+        \fill[schoolred]
+            (current page.south west) rectangle
+            ([yshift=0.55cm]current page.south east);
+    \end{tikzpicture}
+
+    \vspace*{1.2cm}
+
+    \begin{center}
+
+        % ---- University logo ----
+        \includegraphics[width=8.6cm]{logos/Logo.pdf}
+
+        \vspace{1.35cm}
+
+        {\large\bfseries\textls[140]{\MakeUppercase{\university}}\par}
+
+        \vspace{0.45cm}
+
+        {\normalsize\textsc{\faculty}\par}
+
+        \vfill
+
+        % ---- Title block ----
+        {\small\bfseries\color{schoolred}%
+         \textls[220]{\MakeUppercase{\reportkind}}\par}
+
+        \vspace{0.55cm}
+
+        {\color{schoolred}\rule{\textwidth}{1.2pt}}\par
+
+        \vspace{0.80cm}
+
+        {\Huge\bfseries\reporttitle\par}
+
+        \vspace{0.50cm}
+
+        {\large\itshape\reportsubtitle\par}
+
+        \vspace{0.80cm}
+
+        {\color{rulegray}\rule{\textwidth}{0.5pt}}\par
+
+        \vfill
+
+        % ---- Metadata block ----
+        {\color{rulegray}\rule{0.62\textwidth}{0.4pt}}\par
+        \vspace{0.55cm}
+
+        \begin{tabular}{@{}r@{\hspace{1.4em}}l@{}}
+            \textsc{Author}     & \reportauthor     \\[0.40cm]
+            \textsc{Course}     & \reportcourse     \\[0.40cm]
+            \textsc{Instructor} & \reportprofessor  \\
+        \end{tabular}
+
+        \vspace{0.55cm}
+        {\color{rulegray}\rule{0.62\textwidth}{0.4pt}}\par
+
+        \vfill
+
+        {\small\textsc{\reportlocation}\par}
+        \vspace{0.18cm}
+        {\small\reportdate\par}
+
+        \vspace{0.6cm}
+
+    \end{center}
+
+\end{titlepage}

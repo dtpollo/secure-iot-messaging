@@ -1,0 +1,22 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\contentsline {section}{\numberline {2}Objectives}{1}{section.2}%
+\contentsline {subsection}{\numberline {2.1}General Objective}{1}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Specific Objectives}{1}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Background}{1}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Concept One}{1}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Concept Two}{1}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Methodology}{1}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Tools and Technologies}{2}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Procedure}{2}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Development}{2}{section.5}%
+\contentsline {subsection}{\numberline {5.1}System Architecture}{2}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Implementation}{2}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Example Code}{2}{subsubsection.5.2.1}%
+\contentsline {section}{\numberline {6}Results}{2}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Experimental Results}{3}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Discussion}{3}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Conclusions}{3}{section.7}%
+\contentsline {section}{\numberline {8}Future Work}{3}{section.8}%
+\contentsline {section}{References}{3}{section.8}%
+\contentsline {section}{\numberline {A}Additional Material}{3}{appendix.A}%

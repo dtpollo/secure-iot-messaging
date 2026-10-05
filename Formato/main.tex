@@ -1,0 +1,234 @@
+\documentclass[11pt,a4paper]{article}
+
+% ============================================================
+% PACKAGES
+% ============================================================
+\input{packages.tex}
+
+% ============================================================
+% DOCUMENT
+% ============================================================
+\begin{document}
+
+% ============================================================
+% COVER PAGE
+% ============================================================
+\input{cover.tex}
+
+% ============================================================
+% TABLE OF CONTENTS
+% ============================================================
+\pagenumbering{roman}
+
+
+\tableofcontents
+\newpage
+
+% Optional:
+% \listoffigures
+% \newpage
+% \listoftables
+% \newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% ============================================================
+% 1. INTRODUCTION
+% ============================================================
+
+\section{Introduction}
+
+Provide a concise introduction to the problem, project, or topic addressed
+in this report. Explain the context and why the work is relevant.
+
+% ============================================================
+% 2. OBJECTIVES
+% ============================================================
+
+\section{Objectives}
+
+\subsection{General Objective}
+
+State the main objective of the project.
+
+\subsection{Specific Objectives}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item Specific objective one.
+    \item Specific objective two.
+    \item Specific objective three.
+\end{itemize}
+
+% ============================================================
+% 3. BACKGROUND / THEORETICAL FRAMEWORK
+% ============================================================
+
+\section{Background}
+
+% ------------------------------------------------------------
+% CRYPTOGRAPHY TOOLKIT available here (defined in crypto.tex,
+% every one of them shown in use in cheatsheet.pdf):
+%
+%   Environments : definition, theorem, lemma, corollary, proposition,
+%                  claim, construction, example, remark, proof
+%   Algorithms   : \begin{algorithm}[H] + \begin{algorithmic}[1]
+%                  with \Require / \Ensure / \State / \For / \If / \Function
+%   Protocols    : \begin{protocol}{caption}{label} ... \end{protocol}
+%                  (TikZ styles: party, lifeline, msg, msglabel, compute)
+%   Notation     : \Zn{n} \Zns{p} \Fq{q} \bitstr{n} \bits \xor \concat
+%                  \getsr \Gen \Enc \Dec \Sign \Vrfy \Mac \Hash \adv
+%                  \secpar \negl \Adv \ord \lcm \Prob{} \abs{} \ceil{}
+%                  \floor{} \msgspace \keyspace \ctspace
+% ------------------------------------------------------------
+
+Present the concepts, technologies, algorithms, or theoretical foundations
+required to understand the project. Cite every external source, as in
+\cite{katz2020introduction}.
+
+\subsection{Concept One}
+
+Explain the first relevant concept.
+
+\subsection{Concept Two}
+
+Explain the second relevant concept.
+
+% Example equation:
+\begin{equation}
+    a \equiv b \pmod n
+    \label{eq:congruence}
+\end{equation}
+
+% ============================================================
+% 4. METHODOLOGY
+% ============================================================
+
+\section{Methodology}
+
+Describe the methodology, tools, environment, and procedures used.
+
+\subsection{Tools and Technologies}
+
+\begin{table}[H]
+    \centering
+    \caption{Tools and technologies used in the project.}
+    \label{tab:tools}
+    \begin{tabularx}{0.9\textwidth}{@{}lX@{}}
+        \toprule
+        \textbf{Tool} & \textbf{Purpose} \\
+        \midrule
+        Linux & Development and execution environment. \\
+        Python & Implementation of project components. \\
+        Docker & Containerization. \\
+        Git & Version control. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{Procedure}
+
+Describe the steps followed to complete the project.
+
+% ============================================================
+% 5. DEVELOPMENT / IMPLEMENTATION
+% ============================================================
+
+\section{Development}
+
+Describe the implementation of the proposed solution.
+
+\subsection{System Architecture}
+
+Explain the architecture and the relationship between its components.
+
+% Example (the fourth argument is the label, so you can write \cref{fig:architecture}):
+% \reportfigure{figures/architecture.png}{System architecture.}{fig:architecture}
+
+\subsection{Implementation}
+
+Describe the relevant implementation details.
+
+\subsubsection{Example Code}
+
+The following listing illustrates a code fragment used in the project.
+
+\begin{lstlisting}[language=Python,caption={Example Python implementation.},label={lst:python}]
+def main():
+    print("Hello, World!")
+
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+
+As shown in \cref{lst:python}, the implementation follows a simple
+entry-point structure.
+
+% ============================================================
+% 6. RESULTS
+% ============================================================
+
+\section{Results}
+
+Present the results obtained during the implementation or experimentation.
+
+\subsection{Experimental Results}
+
+Explain the observations and measurements obtained, as summarized in
+\cref{tab:results}.
+
+\begin{table}[H]
+    \centering
+    \caption{Example results.}
+    \label{tab:results}
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Experiment} & \textbf{Result} & \textbf{Status} \\
+        \midrule
+        Test 1 & 95\% & Successful \\
+        Test 2 & 91\% & Successful \\
+        Test 3 & 87\% & Successful \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Discussion}
+
+Interpret the results and explain their relevance.
+
+% ============================================================
+% 7. CONCLUSIONS
+% ============================================================
+
+\section{Conclusions}
+
+Summarize the principal findings of the work. Relate the conclusions directly
+to the objectives defined at the beginning of the report.
+
+% ============================================================
+% 8. FUTURE WORK
+% ============================================================
+
+\section{Future Work}
+
+Describe improvements, extensions, or research directions that could be
+implemented in future versions of the project.
+
+% ============================================================
+% REFERENCES
+% ============================================================
+
+\printbibliography[heading=bibintoc]
+
+% ============================================================
+% APPENDICES
+% ============================================================
+
+\appendix
+
+\section{Additional Material}
+
+Place supplementary information here, such as extended code, additional
+tables, configuration files, screenshots, or detailed calculations.
+
+\end{document}

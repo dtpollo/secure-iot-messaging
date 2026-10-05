@@ -1,0 +1,199 @@
+% ---------- Language and typography ----------
+% NOTE: in babel the LAST language listed is the main one.  `main=english`
+% keeps the document in English (Contents / Table / mod) while still allowing
+% \selectlanguage{spanish} for occasional Spanish quotations.
+\usepackage[main=english,spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% ---------- Page layout ----------
+\usepackage[a4paper,top=2.6cm,bottom=2.5cm,left=2.7cm,right=2.5cm]{geometry}
+\usepackage{setspace}
+\setstretch{1.12}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% ---------- Mathematics ----------
+\usepackage{amsmath,amssymb}
+
+% ---------- Tables ----------
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{longtable}
+
+% ---------- Figures and graphics ----------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{placeins}
+\usepackage{tikz}
+
+% ---------- Code ----------
+\usepackage{xcolor}
+\usepackage{listings}
+
+% ---------- Quotations (required by biblatex when babel is loaded) ----------
+\usepackage{csquotes}
+
+% ---------- Links ----------
+\usepackage[hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+% ---------- Headers / footers ----------
+\usepackage{fancyhdr}
+
+% ---------- Lists ----------
+\usepackage{enumitem}
+
+% ---------- References ----------
+\usepackage[backend=biber,style=ieee]{biblatex}
+\addbibresource{references.bib}
+
+% ============================================================
+% DOCUMENT INFORMATION — CHANGE THESE VALUES FOR EACH REPORT
+% ============================================================
+\input{labels.tex}
+
+% PDF metadata (must come after labels.tex so the macros are defined)
+\hypersetup{
+    pdftitle={\reporttitle},
+    pdfauthor={\reportauthor},
+    pdfsubject={\reportcourse},
+    pdfcreator={LaTeX}
+}
+
+% ---------- Visual identity ----------
+\definecolor{accent}{HTML}{243447}
+\definecolor{schoolred}{HTML}{D3392A} % Institutional red (taken from the School logo)
+\definecolor{rulegray}{HTML}{9AA1A9}
+\definecolor{codebackground}{HTML}{F5F5F5}
+\definecolor{codecomment}{HTML}{666666}
+\definecolor{codekeyword}{HTML}{333333}
+
+% ============================================================
+% PAGE STYLE
+% ============================================================
+
+\pagestyle{fancy}
+\fancyhf{}
+
+% Header marks.  The original template used \leftmark, which fancyhdr resolves
+% to the LAST section started on the page: page 1 was headed "4 Methodology"
+% even though it was almost entirely Introduction.  \markright + \rightmark
+% resolves to the FIRST section on the page instead, which is the right name.
+% \nouppercase cancels the forced all-caps of the default mark.
+\renewcommand{\sectionmark}[1]{\markright{\thesection\quad #1}}
+\renewcommand{\subsectionmark}[1]{} % keep subsections out of the header
+
+\fancyhead[L]{\small\textsc{\reporttitle}}
+\fancyhead[R]{\small\textsc{\nouppercase{\rightmark}}}
+
+\fancyfoot[C]{\small\thepage}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\setlength{\headheight}{14pt}
+
+% ============================================================
+% SECTION STYLE
+% ============================================================
+
+\usepackage{titlesec}
+
+\titleformat{\section}
+  {\Large\bfseries}
+  {\thesection}
+  {0.7em}
+  {}
+
+\titleformat{\subsection}
+  {\large\bfseries}
+  {\thesubsection}
+  {0.7em}
+  {}
+
+\titleformat{\subsubsection}
+  {\normalsize\bfseries}
+  {\thesubsubsection}
+  {0.7em}
+  {}
+
+\titlespacing*{\section}{0pt}{24pt}{10pt}
+\titlespacing*{\subsection}{0pt}{18pt}{8pt}
+\titlespacing*{\subsubsection}{0pt}{12pt}{6pt}
+
+% ============================================================
+% CAPTIONS
+% ============================================================
+
+\captionsetup{
+    font=small,
+    labelfont=bf,
+    labelsep=period,
+    justification=centering
+}
+
+% ============================================================
+% LISTINGS — CODE STYLE
+% ============================================================
+
+\lstdefinestyle{formalcode}{
+    backgroundcolor=\color{codebackground},
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries\color{codekeyword},
+    commentstyle=\itshape\color{codecomment},
+    stringstyle=\color{black},
+    numbers=left,
+    numberstyle=\tiny\color{codecomment},
+    numbersep=10pt,
+    frame=single,
+    framerule=0.4pt,
+    rulecolor=\color{black!25},
+    breaklines=true,
+    breakatwhitespace=false,
+    showstringspaces=false,
+    tabsize=4,
+    keepspaces=true,
+    columns=fullflexible,
+    % UTF-8 support: without this, pasting console output containing accents
+    % or ñ (very common in lab transcripts) breaks the compilation.
+    inputencoding=utf8,
+    extendedchars=true,
+    literate=%
+        {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+        {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+        {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {ü}{{\"u}}1 {Ü}{{\"U}}1
+        {¿}{{?`}}1 {¡}{{!`}}1 {°}{{$^\circ$}}1 {€}{{\texteuro}}1
+}
+
+\lstset{style=formalcode}
+
+% ============================================================
+% CUSTOM COMMANDS
+% ============================================================
+
+% Highlighted technical term
+\newcommand{\term}[1]{\textbf{#1}}
+
+% Simple figure command:  \reportfigure[width]{file}{caption}{label}
+% The label argument lets you reference the figure with \cref{fig:...}.
+\newcommand{\reportfigure}[4][0.90\textwidth]{%
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=#1]{#2}
+        \caption{#3}
+        \label{#4}
+    \end{figure}%
+}
+
+% ============================================================
+% CRYPTOGRAPHY TOOLKIT
+% Theorem environments, algorithms, notation macros and protocol
+% diagrams.  See cheatsheet.pdf for a worked example of everything.
+% ============================================================
+\input{crypto.tex}
