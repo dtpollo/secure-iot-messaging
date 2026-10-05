@@ -58,23 +58,30 @@ def es_data(data):
     return len(data) >= 58 and data[0] == DATA and (len(data) - 42) % 16 == 0
 
 
-def mostrar_paquete(data):
-    # Show the fields of the DATA packet
-    print("   TYPE:", hex(data[0]))
-    print("   IDS: ", hex(data[IDS]))
-    print("   SID: ", data[SID].hex())
-    print("   SEQ: ", int.from_bytes(data[SEQ], "big"))
-    print("   IV:  ", data[IV].hex())
-    print("   C:   ", data[C].hex())
-    print("   TAG: ", data[TAG].hex())
+def marca(data, original, campo):
+    # Marks the fields that are different from the original packet
+    if original is not None and data[campo] != original[campo]:
+        return "   <-- modified"
+    return ""
 
 
-def mostrar_handshake(data):
+def mostrar_paquete(data, original=None):
+    # Show the fields of the DATA packet (original = packet before the attack, to mark the changes)
+    print("   TYPE:", hex(data[0]), marca(data, original, slice(0, 1)))
+    print("   IDS: ", hex(data[IDS]), marca(data, original, slice(1, 2)))
+    print("   SID: ", data[SID].hex(), marca(data, original, SID))
+    print("   SEQ: ", int.from_bytes(data[SEQ], "big"), marca(data, original, SEQ))
+    print("   IV:  ", data[IV].hex(), marca(data, original, IV))
+    print("   C:   ", data[C].hex(), marca(data, original, C))
+    print("   TAG: ", data[TAG].hex(), marca(data, original, TAG))
+
+
+def mostrar_handshake(data, original=None):
     # In the handshake only IDs, nonces, public DH values and HMAC are sent
     print("  ", NOMBRES.get(data[0], "?"), len(data), "B | ID:", hex(data[1]) if len(data) > 1 else "-")
     if data[0] in (HELLO, RESPONSE) and len(data) >= 274:
         print("   N:", data[2:18].hex())
-        print("   Y:", data[18:34].hex(), "...")
+        print("   Y:", data[18:34].hex(), "...", marca(data, original, slice(18, 274)))
 
 
 def modificar_ciphertext(data):
@@ -109,11 +116,15 @@ def cambiar_ya(hello):
 def procesar_paquete(sock, data, destino, mode, ataque_hecho):
     # Returns True once the attack is done
     if not ataque_hecho and mode == "mitm" and len(data) == 274 and data[0] == HELLO:
-        sock.sendto(cambiar_ya(data), destino)
-        print("   HELLO sent with YA replaced by the attacker's")
+        falso = cambiar_ya(data)
+        print("   Original packet received:")
+        mostrar_handshake(data)
+        sock.sendto(falso, destino)
+        print("   HELLO sent with YA replaced by the attacker's:")
+        mostrar_handshake(falso, data)
         return True
     if not es_data(data):
-        if mode == "sniff" and data:
+        if data:
             mostrar_handshake(data)
         sock.sendto(data, destino)
         print("  ", NOMBRES.get(data[0], "?") if data else "empty", "forwarded")
@@ -122,23 +133,39 @@ def procesar_paquete(sock, data, destino, mode, ataque_hecho):
         mostrar_paquete(data)
         sock.sendto(data, destino)
     elif mode == "tamper_c" and not ataque_hecho:
-        sock.sendto(modificar_ciphertext(data), destino)
-        print("   Ciphertext modified (1 bit)")
+        falso = modificar_ciphertext(data)
+        print("   Original packet received:")
+        mostrar_paquete(data)
+        sock.sendto(falso, destino)
+        print("   Packet sent (ciphertext modified, 1 bit):")
+        mostrar_paquete(falso, data)
         return True
     elif mode == "tamper_tag" and not ataque_hecho:
-        sock.sendto(modificar_tag(data), destino)
-        print("   TAG modified (1 bit)")
+        falso = modificar_tag(data)
+        print("   Original packet received:")
+        mostrar_paquete(data)
+        sock.sendto(falso, destino)
+        print("   Packet sent (TAG modified, 1 bit):")
+        mostrar_paquete(falso, data)
         return True
     elif mode == "replay" and not ataque_hecho:
         # First the normal packet goes through and then the same one is sent again
+        print("   Original packet received:")
+        mostrar_paquete(data)
         sock.sendto(data, destino)
+        print("   Packet sent (1st, normal)")
         time.sleep(0.2)
         sock.sendto(data, destino)
-        print("   Packet sent twice (the second one is the replay)")
+        print("   Packet sent again (2nd, the replay, identical to the 1st):")
+        mostrar_paquete(data)
         return True
     elif mode == "forge" and not ataque_hecho:
-        sock.sendto(crear_falso(data), destino)
-        print("   Fake packet sent instead of the original")
+        falso = crear_falso(data)
+        print("   Original packet received:")
+        mostrar_paquete(data)
+        sock.sendto(falso, destino)
+        print("   Fake packet sent instead of the original:")
+        mostrar_paquete(falso, data)
         return True
     else:
         sock.sendto(data, destino)
