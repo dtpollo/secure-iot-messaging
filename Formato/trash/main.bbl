@@ -61,7 +61,8 @@
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{number}{7919}
-    \field{title}{Negotiated Finite Field {Diffie-Hellman} Ephemeral Parameters for Transport Layer Security ({TLS})}
+    \field{title}{Negotiated Finite Field {Diffie-Hellman} Ephemeral Parameters
+  for Transport Layer Security ({TLS})}
     \list{institution}{1}{%
       {Internet Engineering Task Force}%
     }
@@ -89,7 +90,8 @@
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{number}{5869}
-    \field{title}{{HMAC}-based Extract-and-Expand Key Derivation Function ({HKDF})}
+    \field{title}{{HMAC}-based Extract-and-Expand Key Derivation Function
+  ({HKDF})}
     \list{institution}{1}{%
       {Internet Engineering Task Force}%
     }

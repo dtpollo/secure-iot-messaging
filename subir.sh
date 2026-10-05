@@ -12,7 +12,7 @@ set -e
 
 cd "$(dirname "$0")"
 
-# Ports: from puertos.env (not pushed; see INSTRUCCIONES.md) or from the environment
+# Ports: from puertos.env (not pushed; see INSTRUCTIONS.md) or from the environment
 [ -f puertos.env ] && . ./puertos.env
 PUERTO_ALICE=${PUERTO_ALICE:-/dev/ttyUSB0}
 PUERTO_BOB=${PUERTO_BOB:-/dev/ttyUSB1}

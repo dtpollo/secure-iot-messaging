@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.15)  4 OCT 2026 21:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.15)  5 OCT 2026 04:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1175,7 +1175,7 @@ Package biblatex Info: Reference section=0 on input line 14.
 Package biblatex Info: Reference segment=0 on input line 14.
 Package babel Info: Main language set to 'english'.
  (./cover.tex
-<logos/Logo.pdf, id=118, 591.81705pt x 221.93114pt>
+<logos/Logo.pdf, id=126, 591.81705pt x 221.93114pt>
 File: logos/Logo.pdf Graphic file (type pdf)
 <use logos/Logo.pdf>
 Package pdftex.def Info: logos/Logo.pdf  used on input line 29.
@@ -1230,11 +1230,11 @@ Package microtype Info: Character `029' is missing
 (microtype)             Ignoring protrusion settings for this character.
  [1
 
-{c:/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc} <./logos/Logo.pdf>]) (trash/main.toc)
+{c:/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc} <./logos/Logo.pdf>]) (trash/main.toc [1])
 \tf@toc=\write6
 \openout6 = `main.toc'.
 
- [1] [2]
+ [2]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 55.
  (c:/texlive/2026/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -1261,63 +1261,107 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Underfull \hbox (badness 10000) in paragraph at lines 161--161
+Underfull \hbox (badness 10000) in paragraph at lines 160--160
 []|\T1/lmr/m/n/10 (+20) Attacker, unau-tho-rized de-vice, and plots (\T1/lmtt/m/n/10 cryptography\T1/lmr/m/n/10 (+20) ,
  []
 
 [2{c:/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
-Underfull \hbox (badness 10000) in paragraph at lines 199--199
+Underfull \hbox (badness 10000) in paragraph at lines 197--197
 []|\T1/lmr/m/n/10 (+20) Direct, and \T1/lmtt/m/n/10 attacker.py --mode
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--199
+Underfull \hbox (badness 10000) in paragraph at lines 197--197
 []|\T1/lmr/m/n/10 (+20) Modified ci-pher-
  []
 
 
-Underfull \hbox (badness 1221) in paragraph at lines 199--199
+Underfull \hbox (badness 1221) in paragraph at lines 197--197
 []|\T1/lmtt/m/n/10 --mode replay \T1/lmr/m/n/10 (+20) re-sends an ac-cepted
  []
 
 
-Underfull \hbox (badness 6995) in paragraph at lines 199--199
+Underfull \hbox (badness 6995) in paragraph at lines 197--197
 []|\T1/lmr/m/n/10 (+20) Unauthorized de-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--199
+Underfull \hbox (badness 10000) in paragraph at lines 197--197
 []|\T1/lmtt/m/n/10 node.py --id 0x99 \T1/lmr/m/n/10 (+20) and \T1/lmtt/m/n/10 node.py
  []
 
 [3]
-LaTeX Font Info:    Trying to load font information for OT1+lmtt on input line 299.
+LaTeX Font Info:    Trying to load font information for OT1+lmtt on input line 297.
  (c:/texlive/2026/texmf-dist/tex/latex/lm/ot1lmtt.fd
 File: ot1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [4] [5{c:/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc}] [6{c:/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}] (c:/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 454.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 452.
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 455.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 453.
  [7]
-<../results/packet_size.png, id=295, 502.9992pt x 338.9463pt>
+<../results/packet_size.png, id=305, 502.9992pt x 338.9463pt>
 File: ../results/packet_size.png Graphic file (type png)
 <use ../results/packet_size.png>
-Package pdftex.def Info: ../results/packet_size.png  used on input line 553.
+Package pdftex.def Info: ../results/packet_size.png  used on input line 549.
 (pdftex.def)             Requested size: 220.28375pt x 148.43863pt.
-<../results/crypto_time.png, id=297, 543.83176pt x 369.66106pt>
+<../results/crypto_time.png, id=307, 543.83176pt x 369.66106pt>
 File: ../results/crypto_time.png Graphic file (type png)
 <use ../results/crypto_time.png>
-Package pdftex.def Info: ../results/crypto_time.png  used on input line 558.
+Package pdftex.def Info: ../results/crypto_time.png  used on input line 554.
 (pdftex.def)             Requested size: 220.28375pt x 149.73447pt.
  [8]
-<../results/latency.png, id=305, 844.1136pt x 311.84505pt>
+<../results/latency.png, id=316, 844.1136pt x 311.84505pt>
 File: ../results/latency.png Graphic file (type png)
 <use ../results/latency.png>
-Package pdftex.def Info: ../results/latency.png  used on input line 572.
+Package pdftex.def Info: ../results/latency.png  used on input line 568.
 (pdftex.def)             Requested size: 427.07458pt x 157.7779pt.
- [9 <../results/packet_size.png> <../results/crypto_time.png> <../results/latency.png>] [10] [11] (trash/main.aux)
+ [9 <../results/packet_size.png> <../results/crypto_time.png> <../results/latency.png>] [10] [11]
+<../results/Screenshots/01_normal_bob.png, id=355, 460.72125pt x 137.7647pt>
+File: ../results/Screenshots/01_normal_bob.png Graphic file (type png)
+<use ../results/Screenshots/01_normal_bob.png>
+Package pdftex.def Info: ../results/Screenshots/01_normal_bob.png  used on input line 758.
+(pdftex.def)             Requested size: 337.16524pt x 100.81752pt.
+<../results/Screenshots/01_normal_sniff.png, id=356, 516.42938pt x 398.99063pt>
+File: ../results/Screenshots/01_normal_sniff.png Graphic file (type png)
+<use ../results/Screenshots/01_normal_sniff.png>
+Package pdftex.def Info: ../results/Screenshots/01_normal_sniff.png  used on input line 759.
+(pdftex.def)             Requested size: 337.16524pt x 260.49757pt.
+ [12]
+<../results/Screenshots/02_tamper_c_attacker.png, id=361, 511.15968pt x 320.69812pt>
+File: ../results/Screenshots/02_tamper_c_attacker.png Graphic file (type png)
+<use ../results/Screenshots/02_tamper_c_attacker.png>
+Package pdftex.def Info: ../results/Screenshots/02_tamper_c_attacker.png  used on input line 760.
+(pdftex.def)             Requested size: 337.16524pt x 211.53418pt.
+<../results/Screenshots/02_tamper_c_bob.png, id=362, 457.71pt x 121.20282pt>
+File: ../results/Screenshots/02_tamper_c_bob.png Graphic file (type png)
+<use ../results/Screenshots/02_tamper_c_bob.png>
+Package pdftex.def Info: ../results/Screenshots/02_tamper_c_bob.png  used on input line 761.
+(pdftex.def)             Requested size: 337.16524pt x 89.2855pt.
+ [13 <../results/Screenshots/01_normal_bob.png> <../results/Screenshots/01_normal_sniff.png>]
+<../results/Screenshots/04_replay_attacker.png, id=369, 517.935pt x 330.48468pt>
+File: ../results/Screenshots/04_replay_attacker.png Graphic file (type png)
+<use ../results/Screenshots/04_replay_attacker.png>
+Package pdftex.def Info: ../results/Screenshots/04_replay_attacker.png  used on input line 762.
+(pdftex.def)             Requested size: 337.16524pt x 215.14531pt.
+<../results/Screenshots/04_replay_bob.png, id=370, 469.00218pt x 153.57375pt>
+File: ../results/Screenshots/04_replay_bob.png Graphic file (type png)
+<use ../results/Screenshots/04_replay_bob.png>
+Package pdftex.def Info: ../results/Screenshots/04_replay_bob.png  used on input line 763.
+(pdftex.def)             Requested size: 337.16524pt x 110.40193pt.
+<../results/Screenshots/05_forge_attacker.png, id=371, 517.18219pt x 320.69812pt>
+File: ../results/Screenshots/05_forge_attacker.png Graphic file (type png)
+<use ../results/Screenshots/05_forge_attacker.png>
+Package pdftex.def Info: ../results/Screenshots/05_forge_attacker.png  used on input line 764.
+(pdftex.def)             Requested size: 337.16524pt x 209.07765pt.
+ [14 <../results/Screenshots/02_tamper_c_attacker.png> <../results/Screenshots/02_tamper_c_bob.png> <../results/Screenshots/04_replay_attacker.png>]
+<../results/Screenshots/05_forge_bob.png, id=379, 461.47406pt x 121.95563pt>
+File: ../results/Screenshots/05_forge_bob.png Graphic file (type png)
+<use ../results/Screenshots/05_forge_bob.png>
+Package pdftex.def Info: ../results/Screenshots/05_forge_bob.png  used on input line 765.
+(pdftex.def)             Requested size: 337.16524pt x 89.10315pt.
+ [15 <../results/Screenshots/04_replay_bob.png> <../results/Screenshots/05_forge_attacker.png> <../results/Screenshots/05_forge_bob.png>] (trash/main.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-08-10>
@@ -1327,7 +1371,7 @@ L3 programming layer <2026-08-10>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 2E7BE20CEC1E46831B0C23745C895BB6;4151.
+(rerunfilecheck)             Checksum: 0FD37F4746046B9104CC79E713587F08;4530.
 
 Package biblatex Warning: Please (re)run BibTeX on the file(s):
 (biblatex)                main
@@ -1338,18 +1382,18 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 41848 strings out of 467099
- 781340 string characters out of 5412502
- 1803090 words of memory out of 5000000
- 70202 multiletter control sequences out of 15000+600000
- 783117 words of font info for 259 fonts, out of 8000000 for 9000
+ 41960 strings out of 467099
+ 785340 string characters out of 5412502
+ 1804136 words of memory out of 5000000
+ 70294 multiletter control sequences out of 15000+600000
+ 783399 words of font info for 262 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 97i,13n,107p,1946b,2191s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 97i,13n,107p,1946b,4008s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmbx9.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmmi8.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmr5.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmr6.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmss10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmsy8.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtt9.pfb><c:/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on trash/main.pdf (14 pages, 1384874 bytes).
+Output written on trash/main.pdf (18 pages, 1791651 bytes).
 PDF statistics:
- 457 PDF objects out of 1000 (max. 8388607)
- 360 compressed objects within 4 object streams
- 76 named destinations out of 1000 (max. 500000)
- 91905 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 522 PDF objects out of 1000 (max. 8388607)
+ 404 compressed objects within 5 object streams
+ 90 named destinations out of 1000 (max. 500000)
+ 91961 words of extra memory for PDF output out of 106986 (max. 10000000)
 

@@ -142,7 +142,6 @@ decrypted, which also prevents padding oracle attacks.
 \Cref{tab:tools} lists the tools that we used. All the cryptographic primitives
 come from standard libraries.
 
-% TODO: add the exact MicroPython firmware version to the ESP32 row (run on the board: import sys; print(sys.version)  or  import os; print(os.uname()))
 \begin{table}[H]
     \centering
     \caption{Tools and technologies used in this work.}
@@ -169,7 +168,6 @@ protocol was connected to the network code of the boards. Each module includes
 a self-test that compares it with official vectors (NIST SP 800-38A for
 AES-CBC, RFC~4231 for HMAC, and RFC~5869 for HKDF). Moreover, the same modules
 run unchanged on the PC and on the ESP32.
-% TODO: run every module self-test on the board (padding, aes_cbc, tag, hkdf, dh, protocol) and python pc/attacker.py --test on the PC; then add one sentence saying that all vectors printed OK (do not write it before running them)
 
 In the test bench, Alice (ID \texttt{0x01}) starts the handshake and Bob (ID
 \texttt{0x02}) waits for it, both on UDP port 5005. For the attacks, the boards
@@ -517,7 +515,6 @@ $\mathit{SID}$. The messages sent from one board were verified, decrypted, and
 shown correctly on the other. In addition, all 50 PING and 50 PONG packets of
 the latency test were accepted, which confirms that the whole protocol works on
 the real hardware.
-% TODO: (optional) add the real "Handshake time (HELLO -> CONFIRM)" printed by main.py on Alice and Bob during the two-board run
 
 \paragraph{Sizes and times.} \Cref{tab:sizes} and \cref{fig:sizetime} show the
 results for each plaintext size. The packet sizes match the formula of the
@@ -574,7 +571,11 @@ messages between the boards, and the share spent on cryptography.}{fig:latency}
 
 The laptop was placed between the boards as the attacker (\texttt{attacker.py}),
 so every packet from Alice to Bob went through it. The console captures are in
-\cref{app:screens}.
+\cref{app:screens}. The measurements of \cref{sec:results} and these security
+tests are real data, but they were run in different sessions. Therefore, the
+times printed in the captures (for example, an \texttt{open} of about 32~ms)
+can differ from the table, which is the controlled measurement ($n=100$ per
+size).
 
 \paragraph{Sniffing.} The attacker forwarded the handshake (HELLO 274~B,
 RESPONSE 306~B, CONFIRM 34~B) and the data packet without changing it. Bob
@@ -597,7 +598,15 @@ the first one and printed the message, and then printed
 $\mathit{TAG}$ with values of its own, without knowing the keys. Bob printed
 \texttt{Rejected: TAG} (\cref{fig:forge-attacker,fig:forge-bob}).
 
-% TODO: tamper_tag, mitm and the intruder tests (node.py --id 0x99 and --psk-falsa) are not run yet; add them here only if they are run
+\paragraph{Remaining tests.} The other three tests of \cref{tab:testplan} also
+gave the expected result. When the attacker modified one bit of the
+$\mathit{TAG}$, Bob printed \texttt{Rejected: TAG}. When the attacker replaced
+$Y_A$ in the handshake (MITM), Alice printed \texttt{Rejected: handshake}. The
+unauthorized device, both with the ID \texttt{0x99} and with a wrong PSK, was
+rejected by Bob with \texttt{Rejected: handshake} and never obtained a session.
+To keep the report short, we included the captures only of the most
+representative tests (sniffing, modified ciphertext, replay, and forgery); the
+rest will be shown during the live demonstration.
 
 \subsection{Discussion}
 
@@ -711,10 +720,11 @@ due to the HMAC, plus a handshake of about 7.6~s once per session.
 
 In the security tests, the laptop acted as an attacker between the boards. It
 could not read the message, and every modified, repeated, or forged packet was
-rejected by Bob, with \texttt{Rejected: TAG} for the first and the last, and
-\texttt{Rejected: replay} for the second. The tests of the MITM attack and of the
-unauthorized device were not run, so the device authentication is supported only
-by the design and not by an experiment.
+rejected by Bob, with \texttt{Rejected: TAG} for the modified ciphertext, the
+modified tag, and the forgery, and \texttt{Rejected: replay} for the repeated
+packet. The MITM attack was rejected in the handshake by Alice, and the
+unauthorized device never obtained a session. All the tests passed, although only
+the captures of the most representative ones are included in this report.
 
 % ============================================================
 % 9. FUTURE WORK
@@ -754,6 +764,5 @@ ESP32 would address the limits described in the previous section.
 \reportfigure[0.75\textwidth]{Screenshots/05_forge_attacker.png}{Forgery: the attacker replaces IV, $C$, and TAG.}{fig:forge-attacker}
 \reportfigure[0.75\textwidth]{Screenshots/05_forge_bob.png}{Forgery: Bob rejects the packet (TAG).}{fig:forge-bob}
 
-% TODO: (optional) add the link to the GitHub repository and to the demo video, once they are final
 
 \end{document}

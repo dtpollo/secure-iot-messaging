@@ -25,8 +25,15 @@
 \contentsline {paragraph}{Sizes and times.}{8}{subsection.6.1}%
 \contentsline {paragraph}{Latency.}{9}{figure.caption.8}%
 \contentsline {subsection}{\numberline {6.2}Security Tests}{9}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Discussion}{9}{subsection.6.3}%
-\contentsline {section}{\numberline {7}Key Questions and Design Insights}{10}{section.7}%
-\contentsline {section}{\numberline {8}Conclusions}{11}{section.8}%
-\contentsline {section}{\numberline {9}Future Work}{11}{section.9}%
-\contentsline {section}{References}{11}{section.9}%
+\contentsline {paragraph}{Sniffing.}{9}{subsection.6.2}%
+\contentsline {paragraph}{Modified ciphertext.}{10}{subsection.6.2}%
+\contentsline {paragraph}{Replay.}{10}{subsection.6.2}%
+\contentsline {paragraph}{Forged packet.}{10}{subsection.6.2}%
+\contentsline {paragraph}{Remaining tests.}{10}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Discussion}{10}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Key Questions and Design Insights}{11}{section.7}%
+\contentsline {section}{\numberline {8}Conclusions}{12}{section.8}%
+\contentsline {section}{\numberline {9}Future Work}{12}{section.9}%
+\contentsline {section}{References}{12}{section.9}%
+\contentsline {section}{\numberline {A}Additional Material}{13}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Screenshots of the Security Tests}{13}{subsection.A.1}%
