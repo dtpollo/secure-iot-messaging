@@ -7,9 +7,8 @@ import binascii
 WIFI_SSID = "MyNetwork"             # the same network as Alice
 WIFI_PASSWORD = "password"
 
-# Network IPs: change only these three (the same in config_alice.py and config_bob.py)
+# Network IPs
 IP_ALICE = "192.168.1.30"
-IP_BOB = "192.168.1.31"
 IP_ATACANTE = "192.168.1.20"
 
 MY_ID = 0x02

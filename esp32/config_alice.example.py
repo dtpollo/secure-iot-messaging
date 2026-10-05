@@ -7,8 +7,7 @@ import binascii
 WIFI_SSID = "MyNetwork"             # 2.4 GHz network (e.g. phone hotspot)
 WIFI_PASSWORD = "password"
 
-# Network IPs: change only these three (the same in config_alice.py and config_bob.py)
-IP_ALICE = "192.168.1.30"
+# Network IPs
 IP_BOB = "192.168.1.31"
 IP_ATACANTE = "192.168.1.20"
 

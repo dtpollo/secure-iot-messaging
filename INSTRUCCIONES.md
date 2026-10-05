@@ -52,7 +52,7 @@ Todos los comandos de abajo usan `$IP_ALICE`, `$IP_BOB` y `$IP_ATACANTE`.
 
 ### Preparación (una sola vez para las pruebas 1 a 5)
 
-1. En `esp32/config_alice.py` y `esp32/config_bob.py` cambiar solo las tres variables de arriba (`IP_ALICE`, `IP_BOB`, `IP_ATACANTE`) con los mismos valores que las de PowerShell. Lo demás del archivo toma las IPs de ahí.
+1. Cambiar solo las variables de IP de cada config, con los mismos valores que las de PowerShell: en `esp32/config_alice.py` son `IP_BOB` e `IP_ATACANTE`, y en `esp32/config_bob.py` son `IP_ALICE` e `IP_ATACANTE`. Lo demás del archivo toma las IPs de ahí.
 2. Cerrar las consolas de las placas (Ctrl+]) y subir con atacante:
    ```powershell
    .\subir.ps1 ambas -Atacante
